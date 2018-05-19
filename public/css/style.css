@@ -1,0 +1,9 @@
+h2{padding:0.4em;}
+ul li{list-style-type: none;}
+
+#app ul.current.location{margin-left: 50px;}
+
+.venues li{padding:1em;}
+.container img.logo{max-width:250px;}
+.venues, .venue.details{background: #c0c0c0;padding:1em;}
+.footer{border-top: 1px solid #c0c0c0;padding:1em;margin-top:1em;}
