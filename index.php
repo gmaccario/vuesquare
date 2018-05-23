@@ -32,7 +32,7 @@ define( 'FTI_URL_CSS', FTI_URL_PUBLIC . 'css' . '/' );
 define( 'FTI_URL_JS', FTI_URL_PUBLIC . 'js' . '/' );
 define( 'FTI_URL_IMAGES', FTI_URL_PUBLIC . 'img' . '/' );
 
-function init()
+function fs_v_init()
 {
 	// AUTO LOADERs	
 	require_once FTI_PATH_INCLUDE . 'autoload.php';
@@ -44,4 +44,4 @@ function init()
 /*
  * GO!
  */
-init();
+fs_v_init();

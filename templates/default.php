@@ -25,7 +25,7 @@
 				<hr />
 				
 				<div id="app">
-					<div class="wrapper col-4 float-left" v-if="b_geolocation === true && show_form === false">
+					<div class="wrapper col-4 float-left" v-if="b_geolocation === true">
 						<div class="wrapper">
 							<div v-if="s == false">
 								<p class="message loading">Loading...</p>
@@ -34,17 +34,50 @@
 								<img class="float-left" src="<?php echo FTI_URL_IMAGES; ?>google-maps-marker.png" alt="You are here!"  />
 								<p>Your Current Location:</p>
 								<ul class="current location">
-									<li>Latitude: {{ latitude }}</li>
-									<li>Longitude: {{ longitude }}</li>
-									<li>Accuracy: more or less {{ accuracy }} meters.</li>
-									<lI>Your current city: {{ current_city }}</li>
+									<li>
+										<span class="label">Your current city</span> <span class="value">{{ current_city }}</span>
+									</li>
+									<li>
+										<span class="label">Latitude</span> 
+										<span class="value">{{ latitude }}</span>
+									</li>
+									<li>
+										<span class="label">Longitude</span>
+										<span class="value">{{ longitude }}</span>
+									</li>
+									<li>
+										<span class="label">Accuracy</span>
+										<span class="value">&cong; {{ accuracy }} meters</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+						
+						<div class="clearfix"></div>
+						
+						<hr />
+						
+						<div v-if="s == false">
+							<p class="message loading">Loading...</p>
+						</div>
+						<div v-else>
+							<div class="categories main-nav">
+								<h2>Categories of venues near you</h2>
+								<ul class="categories">
+									<li class="item" v-if="category.name != undefined" v-for="category in categories">
+										<div class="info">
+											<span class="Name">
+												<a href="#" v-on:click="openCategoryDetails(category.id);">{{ category.name }}</a>
+											</span>
+										</div>
+									</li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="clearfix"></div>
 					</div>
-					<div class="col-4 float-left" v-else-if="b_geolocation === false && show_form === true">
+					<div class="col-4 float-left" v-else-if="b_geolocation === false">
 						<div class="wrapper">
 							<h2>Search for locations near:</h2>
 		
@@ -58,9 +91,9 @@
 						</div>
 					</div>
 					
-					<div class="wrapper col-8 float-right" v-if="open_details != false && b_geolocation === true">
+					<div class="wrapper col-8 float-right" v-if="venue_details[0]">
 						<h2>Venue details</h2>
-						<div v-if="sVenue == false">
+						<div v-if="!venue_details[0]">
 							<p class="message loading">Loading...</p>
 						</div>
 						<div v-else>
@@ -69,11 +102,22 @@
 									<img class="icon float-left" v-bind:src="venue_details[0].categories[0].icon.prefix + '64' + venue_details[0].categories[0].icon.suffix" />
 								</li>
 								<li class="name">
-									<a v-bind:href="venue_details[0].canonicalUrl" target="_blank">
-										{{ venue_details[0].name }}
-									</a>
+									<span class="Name">
+										<a v-bind:href="venue_details[0].canonicalUrl" target="_blank">{{ venue_details[0].name }}</a> -  
+										<span class="shortName">{{ venue_details[0].categories[0].shortName }}</span> - 
+										<span class="id">{{ venue_details[0].id }}</span>
+									</span>
+								</li>
+								<li class="photo">
+									<li class="item" v-for="photo in photos">
+										<a v-bind:href="venue_details[0].canonicalUrl" target="_blank">
+											<img class="icon float-left" v-bind:src="photo.prefix + '64' + photo.suffix" />
+										</a>
+									</li>
 								</li>
 								<li class="address">
+									<span v-if="venue_details[0].location.address">{{ venue_details[0].location.address }}</span>
+									<span v-if="venue_details[0].location.address"><br /></span> 
 									<span v-if="venue_details[0].location.city">{{ venue_details[0].location.city }}</span>
 									<span v-if="venue_details[0].location.city">-</span> 
 									<span v-if="venue_details[0].location.state">{{ venue_details[0].location.state }}</span> 
@@ -102,13 +146,21 @@
 								<li class="item" v-if="venue.categories[0] != undefined" v-for="venue in venues">
 									<img class="icon float-left" v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" />
 									<div class="info">
-										<span class="shortName">{{ venue.categories[0].shortName }}</span>
-										<br />
 										<span class="Name">
-											<a href="#" v-on:click="openVenueDetails(venue.id);">{{ venue.name }}</a>
+											<a href="#" v-on:click="openVenueDetails(venue.id);">{{ venue.name }}</a> - 
+											<span class="shortName">{{ venue.categories[0].shortName }}</span> - 
+											<span class="id">{{ venue.id }}</span>
 										</span>
 										<br />
-										<span class="id">{{ venue.id }}</span>
+										<div class="address">
+											<span v-if="venue.location.address">{{ venue.location.address }}</span>
+											<span v-if="venue.location.address"><br /></span> 
+											<span v-if="venue.location.city">{{ venue.location.city }}</span>
+											<span v-if="venue.location.city">-</span> 
+											<span v-if="venue.location.state">{{ venue.location.state }}</span> 
+											<span v-if="venue.location.state">-</span>
+											<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+										</div>
 									</div>
 									
 									<div class="clearfix"></div>

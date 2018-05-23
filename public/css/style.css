@@ -2,7 +2,15 @@ h2{padding:0.4em;}
 ul li{list-style-type: none;}
 
 #app ul.current.location{margin-left: 50px;}
+#app ul.current.location li{clear:both;}
+#app ul.current.location .label{float:left;}
+#app ul.current.location .value{float:right;}
 
+#app .categories{padding:1em;clear:both;}
+#app .categories li{float:left;padding:0.5em;}
+#app .categories li .info::after{content: " | "}
+
+.hide{display:none;}
 .venues li{padding:1em;}
 .container img.logo{max-width:250px;}
 .venues, .venue.details{background: #c0c0c0;padding:1em;}

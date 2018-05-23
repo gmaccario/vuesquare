@@ -7,9 +7,6 @@ var app = new Vue({
 	  debug: false,
 	  
 	  s: false,
-	  sVenue: false,
-	  open_details: false,
-	  show_form: false,
 	  
 	  latitude: null,
 	  longitude: null,
@@ -22,6 +19,7 @@ var app = new Vue({
 	  
 	  photos:[],
 	  venues: [],
+	  categories: [],
 	  venue_details:[]
   },
   methods:{
@@ -36,16 +34,51 @@ var app = new Vue({
 		getCurrentPosition( options ) {
 			return navigator.geolocation.getCurrentPosition( this.getCurrentPositionSuccess, this.getCurrentPositionError, options );
 		},
-		openVenueDetails( id_venue ){
-			this.sVenue = false;
+		openCategoryDetails( id_category ){
 			var self = this;
 			
 			this.venue_details = [];
-			this.open_details = false;
 			
-			if( self.debug )
-				console.log( id_venue );
+			// self.s = false; // TODO...
 			
+			/*
+			 * VENUES PER CATEGORY
+			 */
+			var jqxhr = jQuery.post( 
+					"/", 
+					{ 
+						'action':'get_venues_per_category', 
+						'll':self.latitude + "," + self.longitude,
+						'categoryId':id_category,
+						'intent':'checkin'
+					}, 
+				function( data ) {
+						
+					self.venues = [];
+						
+					jQuery( data.response.venues ).each(function( index, element ) {
+						if( element.location.city && self.current_city == '')
+						{
+							self.current_city = element.location.city;
+						}
+			     		self.venues.push( element );
+					});
+					
+					self.s = true;
+					
+					if( self.debug ) console.log( "success" );
+		  		});
+		},
+		openVenueDetails( id_venue ){
+			var self = this;
+			
+			this.venue_details = [];
+			
+			if( self.debug ) console.log( id_venue );
+			
+			/*
+			 * VENUE DETAILS
+			 */
 			var jqxhr = jQuery.post( 
 				"/", 
 				{ 
@@ -54,36 +87,45 @@ var app = new Vue({
 					'intent':'checkin'
 				}, 
 			function( data ) {
-				self.open_details = true;
-
-				self.b_geolocation = true;
-				
-				/*if( show_form )
-					self.b_geolocation = false;
-				else
-					self.b_geolocation = true;*/
-
-				self.sVenue = true;
-				
 				self.venue_details.push( data.response.venue );
 	  		});
+			
+			/*
+			 * PHOTOS VENUE
+			 */
+			self.photos = [];
+			
+			var jqxhr = jQuery.post( 
+					"/", 
+					{ 
+						'action':'get_photos_per_venue', 
+						'id_venue':id_venue,
+						'intent':'checkin'
+					}, 
+				function( data ) {
+					if( self.debug ) console.log(data);
+						
+					jQuery( data.response.photos.items ).each(function( index, element ) {
+						self.photos.push( element );
+					});
+		  		});
 		},
 		getCurrentPositionSuccess( pos ) {
+			var self = this;
 			var crd = pos.coords;
 			
 			this.latitude = crd.latitude;
 			this.longitude = crd.longitude;
 			this.accuracy = crd.accuracy;
-			
-			var self = this;
-			
-			this.show_form = false;
 			this.b_geolocation = true;
-			
+
+			/*
+			 * GET VENUES PER CITY
+			 */
 			var jqxhr = jQuery.post( 
 					"/", 
 					{ 
-						'action':'get_current_city', 
+						'action':'get_venues_per_current_city', 
 						'll':self.latitude + "," + self.longitude,
 						'intent':'checkin'
 					}, 
@@ -100,31 +142,49 @@ var app = new Vue({
 					
 					self.s = true;
 					
-					if( self.debug )
-						console.log( "success" );
+					if( self.debug ) console.log( "success" );
 		  		});
+			
+			/*
+			 * GET CATEGORIES
+			 */
+			var jqxhr = jQuery.post( 
+				"/", 
+				{ 
+					'action':'get_categories', 
+					'll':self.latitude + "," + self.longitude,
+					'intent':'checkin'
+				}, 
+			function( data ) {
+					self.s = false;
+					
+					self.categories = [];
+					
+					jQuery( data.response.categories ).each(function( index, element ) {
+			     		self.categories.push( element );
+					});
+					
+					self.s = true;
+					
+					if( self.debug ) console.log( "success" );
+				});
 		},					
 		getCurrentPositionError( err ) {
-			this.s = false;
-			
-			this.show_form = true;
-			
 			this.b_geolocation = false;
 			
-			if( this.debug )
-				console.log( "ERROR" );
+			if( this.debug ) console.log( "NO GEOLOCATION!" );
 		},
 		searchByAddressZipCodeOrCity( event ){
 			event.preventDefault();
 			event.stopPropagation();
 
-			this.sVenue = false;
 			var self = this;
 			
 			this.venue_details = [];
-			this.open_details = false;
-			this.show_form = true;
-			
+
+			/*
+			 * VENUES NEAR TO
+			 */
 			var jqxhr = jQuery.post( 
 				"/", 
 				{ 
@@ -142,10 +202,10 @@ var app = new Vue({
 				self.s = true;
 				
 				if( self.debug )
+				{
 					console.log(self.venue_details);
-				
-				if( self.debug )
 					console.log( "success" );
+				}
 	  		});
 		}
 	}
