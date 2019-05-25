@@ -1,11 +1,13 @@
 <?php
-
-/* ***************************************************************************
- *
- *
- * AUTOLOADER
- *
- *
+<?php
+/**
+ * Autoloader
+ * 
+ * 
+ * @package 
+ * @author Giuseppe Maccario <g_maccario@hotmail.com>
+ * @version 1.0.1
+ * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
  */
 if( !class_exists('FTIDirectoryHelper'))
 {

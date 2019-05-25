@@ -1,6 +1,6 @@
 # README
 
-## Desription
+## Description
 My first integration using Foursquare and Vue.js. After spent some times studiyng AngularJS, I turned my attention to Vue.js and I used Foursquare to make a little experiment with classic ajax calls performed by Jquery.
 
 I used PHP as server side scripting with a Foursquare class implementation; JQuery helps me to do Ajax calls and Bootstrap helps me to buils the basic layout.
@@ -22,5 +22,3 @@ Tested on PHP Version 5.4.44
 
 ## Working example
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
-
-**Please let me know what your thoughts!**
