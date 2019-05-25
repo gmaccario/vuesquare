@@ -10,4 +10,6 @@ I used PHP as server side scripting with a Foursquare class implementation; JQue
 
 There are a couple of lacks: a "loading" message still on the screen in the second case (localization NOT accepted) and the form disappear when I click on the venue details (always on the second case). But this is just a demo!  ¯\_(ツ)_/¯
 
-Please let me know what your thoughts on this are!
+Anyway, you can see a working example here: https://www.giuseppemaccario.com/foursquare-integration/
+
+Please let me know what your thoughts!
