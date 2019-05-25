@@ -8,6 +8,9 @@ var app = new Vue({
 	  
 	  s: false,
 	  
+	  code: 200,
+	  errorDetail: null,
+	  
 	  latitude: null,
 	  longitude: null,
 	  accuracy: null,
@@ -32,7 +35,10 @@ var app = new Vue({
 			this.getCurrentPosition( options );
 	  	},
 		getCurrentPosition( options ) {
-			return navigator.geolocation.getCurrentPosition( this.getCurrentPositionSuccess, this.getCurrentPositionError, options );
+			return navigator.geolocation.getCurrentPosition( 
+				this.getCurrentPositionSuccess, 
+				this.getCurrentPositionError, options 
+			);
 		},
 		openCategoryDetails( id_category ){
 			var self = this;
@@ -55,7 +61,7 @@ var app = new Vue({
 				function( data ) {
 						
 					self.venues = [];
-						
+					
 					jQuery( data.response.venues ).each(function( index, element ) {
 						if( element.location.city && self.current_city == '')
 						{
@@ -131,43 +137,55 @@ var app = new Vue({
 					}, 
 				function( data ) {
 					self.venues = [];
+					
+					self.code = data.meta.code;
+					if(self.code >= 400)
+					{
+						self.errorDetail = data.meta.errorDetail;
+					}
+					
+					if(200 == self.code)
+					{
+						jQuery( data.response.venues ).each(function( index, element ) {
+							if( element.location.city && self.current_city == '')
+							{
+								self.current_city = element.location.city;
+							}
+							self.venues.push( element );
+						});
 						
-					jQuery( data.response.venues ).each(function( index, element ) {
-						if( element.location.city && self.current_city == '')
-						{
-							self.current_city = element.location.city;
-						}
-			     		self.venues.push( element );
-					});
-					
-					self.s = true;
-					
-					if( self.debug ) console.log( "success" );
+						self.s = true;
+						
+						if( self.debug ) console.log( "success" );
+					}
 		  		});
 			
-			/*
-			 * GET CATEGORIES
-			 */
-			var jqxhr = jQuery.post( 
-				"/", 
-				{ 
-					'action':'get_categories', 
-					'll':self.latitude + "," + self.longitude,
-					'intent':'checkin'
-				}, 
-			function( data ) {
-					self.s = false;
-					
-					self.categories = [];
-					
-					jQuery( data.response.categories ).each(function( index, element ) {
-			     		self.categories.push( element );
+			if(200 == self.code)
+			{
+				/*
+				 * GET CATEGORIES
+				 */
+				var jqxhr = jQuery.post( 
+					"/", 
+					{ 
+						'action':'get_categories', 
+						'll':self.latitude + "," + self.longitude,
+						'intent':'checkin'
+					}, 
+				function( data ) {
+						self.s = false;
+						
+						self.categories = [];
+						
+						jQuery( data.response.categories ).each(function( index, element ) {
+							self.categories.push( element );
+						});
+						
+						self.s = true;
+						
+						if( self.debug ) console.log( "success" );
 					});
-					
-					self.s = true;
-					
-					if( self.debug ) console.log( "success" );
-				});
+			}
 		},					
 		getCurrentPositionError( err ) {
 			this.b_geolocation = false;

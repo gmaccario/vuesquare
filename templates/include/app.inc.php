@@ -35,17 +35,19 @@
 			<p class="message loading">Loading...</p>
 		</div>
 		<div v-else>
-			<div class="categories main-nav">
-				<h2>Categories of venues near you</h2>
-				<ul class="categories">
-					<li class="item" v-if="category.name != undefined" v-for="category in categories">
-						<div class="info">
-							<span class="Name">
-								<a href="#" v-on:click="openCategoryDetails(category.id);">{{ category.name }}</a>
-							</span>
-						</div>
-					</li>
-				</ul>
+			<div v-if="code == 200">
+				<div class="categories main-nav">
+					<h2>Categories of venues near you</h2>
+					<ul class="categories">
+						<li class="item" v-if="category.name != undefined" v-for="category in categories">
+							<div class="info">
+								<span class="Name">
+									<a href="#" v-on:click="openCategoryDetails(category.id);">{{ category.name }}</a>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
@@ -115,31 +117,37 @@
 			<p class="message loading">Loading...</p>
 		</div>
 		<div v-else>
-			<h2>Venues near you</h2>
-			<ul class="venues">
-				<li class="item" v-if="venue.categories[0] != undefined" v-for="venue in venues">
-					<img class="icon float-left" v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" />
-					<div class="info">
-						<span class="Name">
-							<a href="#" v-on:click="openVenueDetails(venue.id);">{{ venue.name }}</a> - 
-							<span class="shortName">{{ venue.categories[0].shortName }}</span> - 
-							<span class="id">{{ venue.id }}</span>
-						</span>
-						<br />
-						<div class="address">
-							<span v-if="venue.location.address">{{ venue.location.address }}</span>
-							<span v-if="venue.location.address"><br /></span> 
-							<span v-if="venue.location.city">{{ venue.location.city }}</span>
-							<span v-if="venue.location.city">-</span> 
-							<span v-if="venue.location.state">{{ venue.location.state }}</span> 
-							<span v-if="venue.location.state">-</span>
-							<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+			<div v-if="code >= 400">
+				<p>{{ errorDetail }}</p>
+			</div>
+			<div v-else>
+				<h2>Venues near you</h2>
+				
+				<ul class="venues">
+					<li class="item" v-if="venue.categories[0] != undefined" v-for="venue in venues">
+						<img class="icon float-left" v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" />
+						<div class="info">
+							<span class="Name">
+								<a href="#" v-on:click="openVenueDetails(venue.id);">{{ venue.name }}</a> - 
+								<span class="shortName">{{ venue.categories[0].shortName }}</span> - 
+								<span class="id">{{ venue.id }}</span>
+							</span>
+							<br />
+							<div class="address">
+								<span v-if="venue.location.address">{{ venue.location.address }}</span>
+								<span v-if="venue.location.address"><br /></span> 
+								<span v-if="venue.location.city">{{ venue.location.city }}</span>
+								<span v-if="venue.location.city">-</span> 
+								<span v-if="venue.location.state">{{ venue.location.state }}</span> 
+								<span v-if="venue.location.state">-</span>
+								<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+							</div>
 						</div>
-					</div>
-					
-					<div class="clearfix"></div>
-				</li>
-			</ul>
+						
+						<div class="clearfix"></div>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
