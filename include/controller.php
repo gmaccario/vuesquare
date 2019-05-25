@@ -8,7 +8,9 @@ $foursquare = new FoursquareApi( CLIENT_ID, CLIENT_SECRET );
 $foursquareWrapper = new FoursquareWrapper( $foursquare );
 
 /* check params */
-if( isset( $_POST['action'] ))
+$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+
+if( isset( $action ))
 {
 	$foursquareWrapper->setPost( $_POST );
 	return $foursquareWrapper->executePost();
