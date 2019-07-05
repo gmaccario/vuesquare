@@ -3,10 +3,6 @@
 use \Foursquare\FoursquareApi;
 use \Foursquare\FoursquareWrapper;
 
-$foursquare = new FoursquareApi( CLIENT_ID, CLIENT_SECRET );
-
-$foursquareWrapper = new FoursquareWrapper( $foursquare );
-
 /* check params */
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 $ll = filter_input(INPUT_POST, 'll', FILTER_SANITIZE_STRING);
@@ -16,6 +12,9 @@ $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
 
 if( isset( $action ))
 {
+    $foursquare = new FoursquareApi( CLIENT_ID, CLIENT_SECRET );
+    
+    $foursquareWrapper = new FoursquareWrapper( $foursquare );
 	$foursquareWrapper->setAction( $action );
 	$foursquareWrapper->setLL( $ll );
 	$foursquareWrapper->setIntent( $intent );

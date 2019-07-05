@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Autoloader
  * 
@@ -101,8 +100,10 @@ if( !class_exists('Autoloader'))
 			
 			// WARNING: on Linux classname contains the namespace, so I get just the name of the Class 
 			$tmp = explode('.', strtolower( $classname ));
-			if ( strrpos( end( $tmp ), '\\' ) !== false )
-				$tmp = explode('\\', strtolower( $classname ));
+			if ( strrpos( end( $tmp ), '\\' ) !== false ) 
+			{
+			    $tmp = explode('\\', strtolower( $classname ));
+			}
 			$classname = end( $tmp );
 			
 			//echo "0. ". $classname . "<br />";
