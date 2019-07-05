@@ -22,3 +22,5 @@ Tested on PHP 5.4.44 and 7.1.20
 
 ## Working example
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
+
+![VueSquare - G.Maccario](https://github.com/gmaccario/vuesquare/blob/master/screenshot.png?raw=true)
