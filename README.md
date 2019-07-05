@@ -18,7 +18,7 @@ The application is very simple, I implemented two cases:
 - JQuery
 - Bootstrap.
 
-Tested on PHP Version 5.4.44
+Tested on PHP 5.4.44 and 7.1.20
 
 ## Working example
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
