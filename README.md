@@ -12,7 +12,7 @@ My first integration using **Foursquare** and **Vue.js**. After spent some times
 * Javascript gets the coordinates of the user (if the user allows that);
 * PHP connects VueSquare with Foursquare througt a Foursquare wrapper class; 
 * JQuery makes Ajax calls;
-* Bootstrap buils a basic layout.
+* Bootstrap builds a basic layout.
 
 ## Cases
 I implemented two cases:
