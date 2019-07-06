@@ -5,7 +5,7 @@ My first integration using **Foursquare** and **Vue.js**. After spent some times
 
 ## Getting started
 * Clone the repository to create a local copy on your computer and set up a virtual host to visit VueSquare via browser.
-* Open conf/global.json and put your ![Foursquare Client ID and Client Secret keys](https://developer.foursquare.com/docs/api).
+* Open conf/global.json and put your [Foursquare Client ID and Client Secret keys](https://developer.foursquare.com/docs/api).
 * Open VueSquare via browser.
 
 ## Beneath the surface
