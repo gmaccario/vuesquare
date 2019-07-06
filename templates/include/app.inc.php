@@ -1,4 +1,4 @@
-<div id="app">
+<div id="foursquare-integration">
 	<div class="wrapper col-4 float-left" v-if="b_geolocation === true">
 		<div class="wrapper">
 			<div v-if="s == false">
