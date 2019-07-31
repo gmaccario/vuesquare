@@ -2,6 +2,7 @@
 /**
  * FoursquareApi
  * A PHP-based Foursquare client library with a focus on simplicity and ease of integration
+ * https://github.com/hownowstephen/php-foursquare
  * 
  * @package php-foursquare 
  * @author Stephen Young <me@hownowstephen.com>, @hownowstephen
@@ -327,9 +328,10 @@ class FoursquareApi {
 	/**
 	 * GetToken
 	 * Performs a request to Foursquare for a user token, and returns the token, while also storing it
-	 * locally for use in private requests
-	 * @param $code The 'code' parameter provided by the Foursquare webauth callback redirect
-	 * @param $redirect The configured redirect_uri for the provided client credentials
+	 * locally for use in private requests. The 'code' parameter provided by the Foursquare webauth callback redirect.
+	 * The configured redirect_uri for the provided client credentials..
+	 * @param $code 
+	 * @param $redirect 
 	 */
 	public function GetToken($code,$redirect=''){
 		if ( 0 === strlen( $redirect ) ) {

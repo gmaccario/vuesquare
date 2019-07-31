@@ -4,22 +4,27 @@ use \Foursquare\FoursquareApi;
 use \Foursquare\FoursquareWrapper;
 
 /* check params */
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-$ll = filter_input(INPUT_POST, 'll', FILTER_SANITIZE_STRING);
-$intent = filter_input(INPUT_POST, 'intent', FILTER_SANITIZE_STRING);
-$near = filter_input(INPUT_POST, 'near', FILTER_SANITIZE_STRING);
-$id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
+$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING, array('options'=>array('default'=> '')));
 
-if( isset( $action ))
+if($action != '')
 {
-    $foursquare = new FoursquareApi( CLIENT_ID, CLIENT_SECRET );
+    /**
+     * Get values from POST 
+     * 
+     */
+    $ll = filter_input(INPUT_POST, 'll', FILTER_SANITIZE_STRING);
+    $intent = filter_input(INPUT_POST, 'intent', FILTER_SANITIZE_STRING);
+    $near = filter_input(INPUT_POST, 'near', FILTER_SANITIZE_STRING);
+    $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
     
-    $foursquareWrapper = new FoursquareWrapper( $foursquare );
-	$foursquareWrapper->setAction( $action );
-	$foursquareWrapper->setLL( $ll );
-	$foursquareWrapper->setIntent( $intent );
-	$foursquareWrapper->setNear( $near );
-	$foursquareWrapper->setIdVenue( $id_venue );
+    $foursquare = new FoursquareApi(CLIENT_ID, CLIENT_SECRET);
+    
+    $foursquareWrapper = new FoursquareWrapper($foursquare);
+	$foursquareWrapper->setAction($action);
+	$foursquareWrapper->setLL($ll);
+	$foursquareWrapper->setIntent($intent);
+	$foursquareWrapper->setNear($near);
+	$foursquareWrapper->setIdVenue($id_venue);
 	
 	return $foursquareWrapper->executePost();
 }

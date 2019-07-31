@@ -6,7 +6,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
 	<link rel="stylesheet" href="<?php echo FTI_URL_CSS; ?>style.css" />
-    <title>Challenge: Foursquare API, PHP, Vue.js, JQuery, Bootstrap</title>
+    
+    <title>PHP 7, Foursquare API, Vue.js, Bootstrap</title>
   </head>
   <body>
     <div class="container">
@@ -14,11 +15,11 @@
 		    <div class="col-12">
 			    <h1 class="float-left">
 				  <a href="/">
-				    <img src="<?php echo FTI_URL_IMAGES; ?>logo.png" class="logo" alt="Foursquare API Challenge" />
+				    <img src="<?php echo FTI_URL_IMAGES; ?>logo.png" class="logo" alt="Foursquare API" />
 				  </a>
 				</h1>
 
-				<h2 class="float-right">Foursquare API, PHP, Vue.js, JQuery, Bootstrap</h2>  
+				<h2 class="float-right">PHP 7, Foursquare API, Vue.js, Bootstrap</h2>  
 				
 				<div class="clearfix"></div>
 				
@@ -38,8 +39,12 @@
 	</div>
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="<?php echo FTI_URL_JS; ?>custom.js"></script>
+
+	<script src="<?php echo FTI_URL_JS; ?>foursquare-vue.js"></script>
   </body>
 </html>
