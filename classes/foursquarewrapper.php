@@ -15,17 +15,21 @@ if(!interface_exists('iFoursquareWrapper'))
 {
     interface iFoursquareWrapper
     {
-        public function setAction(?string $action) : void;
-        public function setLL(?string $ll) : void;
+        public function setAction(string $action) : void;
+        public function setLL(string $ll) : void;
         public function setIntent(?string $intent) : void;
+        public function setName(?string $name) : void;
+        public function setLimit(?int $limit) : void;
         public function setNear(?string $near) : void;
         public function setIdVenue(?string $id_venue) : void;
         
         public function getAction() : string;
         public function getLL() : string;
-        public function getIntent() : string;
-        public function getNear() : string ;
-        public function getIdVenue() : string ;
+        public function getIntent() : ?string;
+        public function getName() : ?string;
+        public function getLimit() : ?int;
+        public function getNear() : ?string ;
+        public function getIdVenue() : ?string ;
         
         public function executePost() : ?string;
     }
@@ -48,6 +52,7 @@ if(!class_exists('FoursquareWrapper'))
 		protected $action; 
 		protected $ll;
 		protected $intent;
+		protected $name;
 		protected $near;
 		protected $id_venue;
 		
@@ -75,7 +80,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
 		 */
-		public function setAction(?string $action) : void
+		public function setAction(string $action) : void
 		{ 
 		    $this->action = $action; 
 		}
@@ -88,7 +93,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
 		 */
-		public function setLL(?string $ll) : void 
+		public function setLL(string $ll) : void 
 		{ 
 		    $this->ll = $ll; 
 		}
@@ -104,6 +109,32 @@ if(!class_exists('FoursquareWrapper'))
 		public function setIntent(?string $intent) : void 
 		{ 
 		    $this->intent = $intent; 
+		}
+		
+		/**
+		 * @name setName
+		 *
+		 * @param string $intent
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return void
+		 */
+		public function setName(?string $name) : void
+		{
+		    $this->name = $name;
+		}
+		
+		/**
+		 * @name setLimit
+		 *
+		 * @param int $limit
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return void
+		 */
+		public function setLimit(?int $limit) : void
+		{
+		    $this->limit = $limit;
 		}
 		
 		/**
@@ -160,9 +191,31 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return string
 		 */
-		public function getIntent() : string
+		public function getIntent() : ?string
 		{ 
 		    return $this->intent; 
+		}
+		
+		/**
+		 * @name getName
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return string
+		 */
+		public function getName() : ?string
+		{
+		    return $this->name;
+		}
+		
+		/**
+		 * @name getLimit
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return int
+		 */
+		public function getLimit() : ?int
+		{
+		    return $this->limit;
 		}
 		
 		/**
@@ -171,7 +224,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return string
 		 */
-		public function getNear() : string 
+		public function getNear() : ?string 
 		{ 
 		    return $this->near; 
 		}
@@ -182,7 +235,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return string
 		 */
-		public function getIdVenue() : string 
+		public function getIdVenue() : ?string 
 		{ 
 		    return $this->id_venue; 
 		}
@@ -222,6 +275,7 @@ if(!class_exists('FoursquareWrapper'))
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
+		            $this->params['limit'] = $this->limit;
 		            break;
 		        case 'get_categories':
 		            $this->endpoint = 'venues/categories';

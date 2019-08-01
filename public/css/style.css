@@ -1,17 +1,37 @@
-h2{padding:0.4em;}
-ul li{list-style-type: none;}
+/**
+* GENERAL
+*/
+#foursquare-integration h2{padding:0.4em;}
+#foursquare-integration ul li{list-style-type: none;}
+#foursquare-integration .hide{display:none;}
 
-#app ul.current.location{margin-left: 50px;}
-#app ul.current.location li{clear:both;}
-#app ul.current.location .label{float:left;}
-#app ul.current.location .value{float:right;}
+/**
+* CURRENT LOCATION
+*/
+#foursquare-integration .current-location{}
+#foursquare-integration .current-location .welcome span{display: block;}
+#foursquare-integration ul.current-location{margin-left: 50px;}
+#foursquare-integration ul.current-location li{clear:both;}
+#foursquare-integration ul.current-location .label{float:left;}
+#foursquare-integration ul.current-location .value{float:right;}
 
-#app .categories{padding:1em;clear:both;}
-#app .categories li{float:left;padding:0.5em;}
-#app .categories li .info::after{content: " | "}
+/**
+* CATEGORIES
+*/
+#foursquare-integration .categories{padding:1em;clear:both;}
+#foursquare-integration .categories li{padding:0.5em;}
+#foursquare-integration .categories li .info::after{content: " | "}
+#foursquare-integration .categories li .thumbnail img{ background-color: #c0c0c0;}
 
-.hide{display:none;}
-.venues li{padding:1em;}
-.container img.logo{max-width:250px;}
-.venues, .venue.details{background: #c0c0c0;padding:1em;}
-.footer{border-top: 1px solid #c0c0c0;padding:1em;margin-top:1em;}
+/**
+* VENUES
+*/
+#foursquare-integration .venues-near-you li{padding:1em;}
+#foursquare-integration .venues-near-you li img{ background-color: #c0c0c0;}
+
+
+/*#foursquare-integration .venues-near-you, 
+#foursquare-integration .venues-near-you.details{background: #c0c0c0;padding:1em;}*/
+
+/*#foursquare-integration .container img.logo{max-width:250px;}
+#foursquare-integration .footer{border-top: 1px solid #c0c0c0;padding:1em;margin-top:1em;}*/

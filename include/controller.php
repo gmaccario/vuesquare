@@ -15,6 +15,8 @@ if($action != '')
     $ll = filter_input(INPUT_POST, 'll', FILTER_SANITIZE_STRING);
     $intent = filter_input(INPUT_POST, 'intent', FILTER_SANITIZE_STRING);
     $near = filter_input(INPUT_POST, 'near', FILTER_SANITIZE_STRING);
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $limit = filter_input(INPUT_POST, 'limit', FILTER_SANITIZE_NUMBER_INT);
     $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
     
     $foursquare = new FoursquareApi(CLIENT_ID, CLIENT_SECRET);
@@ -24,6 +26,8 @@ if($action != '')
 	$foursquareWrapper->setLL($ll);
 	$foursquareWrapper->setIntent($intent);
 	$foursquareWrapper->setNear($near);
+	$foursquareWrapper->setName($name);
+	$foursquareWrapper->setLimit($limit);
 	$foursquareWrapper->setIdVenue($id_venue);
 	
 	return $foursquareWrapper->executePost();
