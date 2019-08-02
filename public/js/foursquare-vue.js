@@ -51,12 +51,12 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 	},
   	template:`  	
   		<div class="wrapper current-location">
-		  	<h4>Current Location</h4>
+		  	<h3>Current Location</h3>
 		  	
-		  	<p class="welcome">
-		  		<i class="fa fa-map-marker" aria-hidden="true"></i>
-		  		
+		  	<div class="welcome">
 		  		<span v-show="!location_name">Loading...</span>
+		  	
+		  		<i class="fa fa-map-marker float-left" aria-hidden="true"></i>
 		  		
 		  		<div class="location" v-show="location_name">
   					<span>You are in </span>
@@ -68,14 +68,16 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
   					<span> </span>
   					<span>({{ location.cc }})</span>
 		  		</div>
-		  	</p>
+		  	</div>
 		  	
-		  	<p>Here your precise location:</p>
-		  	<ul>
-		  		<li><span class="label">Latitude: </span><span class="value">{{ config.latitude }}</span></li>
-		  		<li><span class="label">Longitude: </span><span class="value">{{ config.longitude }}</span></li>
-		  		<li><span class="label">Accuracy: </span><span class="value">&cong; {{ parseInt(config.accuracy) }} meters</span></li>
-		  	</ul>
+		  	<div class="where-i-am">
+			  	<p>Here your precise location:</p>
+			  	<ul>
+			  		<li><span class="label">Latitude: </span><span class="value">{{ config.latitude }}</span></li>
+			  		<li><span class="label">Longitude: </span><span class="value">{{ config.longitude }}</span></li>
+			  		<li><span class="label">Accuracy: </span><span class="value">&cong; {{ parseInt(config.accuracy) }} meters</span></li>
+			  	</ul>
+  			</div>
   		</div>`
 });
 
@@ -145,7 +147,7 @@ const FSCategories = Vue.component('fs-categories',{
 	},
   	template:`  	
   		<div class="wrapper categories">
-		  	<h4>Categories</h4>
+		  	<h3>Categories</h3>
 		  	
   			<p v-show="!categories.length">Loading...</p>
   			
@@ -176,7 +178,7 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 	},
   	template:`  	
   		<div class="wrapper venue-details" v-if="venue.error || venue.id">
-		  	<h4>Venue Details</h4>
+		  	<h3>Venue Details</h3>
 		  	
 		  	<div class="details">
 		  	
@@ -261,7 +263,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	},
   	template:`  	
   		<div class="wrapper venues-near-you">
-		  	<h4>Venues Near You</h4>
+		  	<h3>Venues Near You</h3>
 		  	
 		  	<p v-show="!venues.length">Loading...</p>
 		  	
@@ -291,11 +293,11 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
   					</div>
 
 		  			<div class="details">
-			  			<h5 class="text-right">
+			  			<h4 class="text-right">
 			  				<a href="#" @click="getVenueById(venue.id);">
 			  					<span>{{ venue.name }}</span>
 			  				</a>
-			  			</h5>
+			  			</h4>
 			  			
 			  			<h6 class="text-right" v-if="venue.categories[0]" >{{ venue.categories[0].name }}</h6>
 			  			
@@ -354,8 +356,6 @@ const FSSidebar = Vue.component('fs-sidebar',{
 	},
   	template:`  	
   		<div class="wrapper sidebar">
-		  	<h3>Sidebar</h3>
-		  	
 		  	<fs-current-location :config="config"></fs-current-location>
 		  	<fs-categories :config="config" :categories="categories"></fs-categories>
   		</div>`
@@ -386,8 +386,6 @@ const FSContent = Vue.component('fs-content',{
 	method:{},
   	template:`  	
   		<div class="wrapper content">
-		  	<h3>Content</h3>
-		  	
 		  	<fs-venue-details :venue="venue"></fs-venue-details>
 		  	<fs-venues-near-you :venues="venues"></fs-venues-near-you>
   		</div>`

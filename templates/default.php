@@ -14,27 +14,33 @@
     <div class="container">
 	  	<div class="row">
 		    <div class="col-12">
-			    <h1 class="float-left">
-				  <a href="/">
-				    <img src="<?php echo FTI_URL_IMAGES; ?>logo.png" class="logo" alt="Foursquare API" />
-				  </a>
-				</h1>
+		    	<header>
+    			    <h1 class="col-4 float-left">
+    				  <a href="/">
+    				    <img src="<?php echo FTI_URL_IMAGES; ?>logo.png" class="logo" alt="Foursquare API" />
+    				  </a>
+    				</h1>
+    				
+    				<h2 class="col-8 float-right">PHP 7, Foursquare API, Vue.js, Axios, Bootstrap</h2>
+    				
+    				<div class="clearfix"></div>
+    			</header>
 
-				<h2 class="float-right">PHP 7, Foursquare API, Vue.js, Axios, Bootstrap</h2>  
+				<hr />
 				
-				<div class="clearfix"></div>
+				<section>				
+					<?php include( FTI_PATH_TEMPLATES_INCLUDE . 'app.inc.php' ); ?>
+					
+					<div class="clearfix"></div>
+				</section>
 				
 				<hr />
 				
-				<?php include( FTI_PATH_TEMPLATES_INCLUDE . 'app.inc.php' ); ?>
-
-				<div class="clearfix"></div>
-				
-				<div class="footer">
-					<span class="float-right">Powered by <a href="https://www.linkedin.com/in/giuseppemaccario/" target="_blank">G.Maccario</a></span>
+				<footer class="text-right">
+					<span>Powered by <a href="https://www.linkedin.com/in/giuseppemaccario/" target="_blank">G.Maccario</a></span>
 					
 					<div class="clearfix"></div>
-				</div>
+				</footer>
 			</div>
 		</div>
 	</div>

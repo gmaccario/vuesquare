@@ -9,7 +9,7 @@
 * CURRENT LOCATION
 */
 #foursquare-integration .current-location{}
-#foursquare-integration .current-location .welcome span{display: block;}
+#foursquare-integration .current-location .welcome span{}
 #foursquare-integration ul.current-location{margin-left: 50px;}
 #foursquare-integration ul.current-location li{clear:both;}
 #foursquare-integration ul.current-location .label{float:left;}
