@@ -68,10 +68,9 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
   					<span> </span>
   					<span>({{ location.cc }})</span>
 		  		</div>
-
-		  		<p>Here your precise location:</p>
 		  	</p>
 		  	
+		  	<p>Here your precise location:</p>
 		  	<ul>
 		  		<li><span class="label">Latitude: </span><span class="value">{{ config.latitude }}</span></li>
 		  		<li><span class="label">Longitude: </span><span class="value">{{ config.longitude }}</span></li>
@@ -88,23 +87,27 @@ const FSCategories = Vue.component('fs-categories',{
 		config: {
 			type: Object,
 			required: true
+		},
+		categories: {
+			type: Array,
+			required: true
 		}
 	},
 	data(){
 		return {
-			categories: [],
-			current: 0
+//			categories: [],
+			current: this.$root.$data.category
 		}
 	},
 	created: function () {
-    	this.getCategories();
+    	//this.getCategories();
 	},
 	methods: {
 		/**
     	 * @name getCategories
     	 * @description Get categories
     	 */
-		getCategories() {
+		/*getCategories() {
 
 			// ES2017 async/await support
 			const params = new URLSearchParams();
@@ -115,18 +118,29 @@ const FSCategories = Vue.component('fs-categories',{
 			axios.post('/', params).then((response) => {
 				this.categories = response.data.response.categories;
 			});
-    	},
+    	},*/
     	
     	/**
     	 * @name getVenuesByCategory
     	 * @description Get the list of venue by category
     	 */
     	getVenuesByCategory(category_id) {
+    		
     		this.current = category_id;
     		
-    		console.log("FSCategories: ", this.current);
-    		
-    		this.$emit('get-venues-by-category');
+    		// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-venues-by-category');
+			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('categoryId', this.current);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {				
+				
+				this.$root.$data.venues = response.data.response.venues;
+			});
+			
+    		//this.$emit('get-venues-by-category');
     	}
 	},
   	template:`  	
@@ -134,13 +148,15 @@ const FSCategories = Vue.component('fs-categories',{
 		  	<h4>Categories</h4>
 		  	
   			<p v-show="!categories.length">Loading...</p>
-		  	
+  			
 		  	<ul>
 		  		<li v-for="category in categories">
 		  			<div class="thumbnail">
 		  				<a href="#" @click="getVenuesByCategory(category.id);">
   							<img :src="category.icon.prefix + '32' + category.icon.suffix" />
-  							<span class="shortName">{{ category.shortName }}</span>
+  							<span class="shortName" :class="(current == category.id) ? 'current' : ''">
+  								{{ category.shortName }}
+  							</span>
 		  				</a>
 		  			</div>
 		  		</li>
@@ -153,16 +169,25 @@ const FSCategories = Vue.component('fs-categories',{
  */
 const FSVenueDetails = Vue.component('fs-venue-details',{
 	props: {
-		id: {
-			type: String,
-			required: false
+		venue: {
+			type: Object,
+			required: true
 		}
 	},
   	template:`  	
-  		<div class="wrapper venue-details">
+  		<div class="wrapper venue-details" v-if="venue.error || venue.id">
 		  	<h4>Venue Details</h4>
 		  	
-		  	{{ id }}
+		  	<div class="details">
+		  	
+			  	<p class="error" v-if="venue.error">
+			  		<span v-if="venue.error == 429">Free account here! Currently over the daily call quota limit (950 calls per day).</span>
+			  	</p>
+		  	
+		  		<div v-if="!venue.error">
+		  			{{ venue }}
+		  		</div>
+		  	</div>
   		</div>`
 });
 
@@ -171,26 +196,30 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
  */
 const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	props: {
-		config: {
+		/*config: {
 			type: Object,
+			required: true
+		},*/
+		venues: {
+			type: Array,
 			required: true
 		}
 	},
 	data(){
 		return {
-			venues: [],
-			current: 0
+			//venues: [],
+			current: this.$root.$data.venue
 		}
 	},
 	created: function () {
-    	this.getVenuesNearYou();
+    	//this.getVenuesNearYou();
 	},
 	methods: {
 		/**
     	 * @name getVenuesNearYou
     	 * @description Get venues near you
     	 */
-		getVenuesNearYou() {
+		/*getVenuesNearYou() {
 			
 			// ES2017 async/await support
 			const params = new URLSearchParams();
@@ -201,7 +230,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			axios.post('/', params).then((response) => {				
 				this.venues = response.data.response.venues;
 			});
-		},
+		},*/
 		
 		/**
     	 * @name getVenueById
@@ -210,9 +239,23 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 		getVenueById(venue_id) {
 			
 			this.current = venue_id;
-    		
-    		console.log("FSVenuesNearYou", this.current);
-    		
+
+    		// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-venue-details');
+			params.append('id_venue', this.current);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {				
+				
+				if(response.data.meta.code != 429){
+					this.$root.$data.venue = response.data.response.venue;
+				}
+				else {
+					Vue.set(this.$root.$data.venue, 'error', response.data.meta.code);
+				}
+			});
+
     		//this.$emit('get-venue-by-id');
 		}
 	},
@@ -300,6 +343,10 @@ const FSSidebar = Vue.component('fs-sidebar',{
 		config: {
 			type: Object,
 			required: true
+		},
+		categories: {
+			type: Array,
+			required: true
 		}
 	},
 	method: {
@@ -310,7 +357,7 @@ const FSSidebar = Vue.component('fs-sidebar',{
 		  	<h3>Sidebar</h3>
 		  	
 		  	<fs-current-location :config="config"></fs-current-location>
-		  	<fs-categories :config="config"></fs-categories>
+		  	<fs-categories :config="config" :categories="categories"></fs-categories>
   		</div>`
 });
 
@@ -326,6 +373,14 @@ const FSContent = Vue.component('fs-content',{
 		config: {
 			type: Object,
 			required: true
+		},
+		venues: {
+			type: Array,
+			required: true
+		},
+		venue: {
+			type: Object,
+			required: true
 		}
 	},
 	method:{},
@@ -333,8 +388,8 @@ const FSContent = Vue.component('fs-content',{
   		<div class="wrapper content">
 		  	<h3>Content</h3>
 		  	
-		  	<fs-venue-details :config="config"></fs-venue-details>
-		  	<fs-venues-near-you :config="config"></fs-venues-near-you>
+		  	<fs-venue-details :venue="venue"></fs-venue-details>
+		  	<fs-venues-near-you :venues="venues"></fs-venues-near-you>
   		</div>`
 });
 
@@ -354,13 +409,26 @@ const vm = new Vue({
     	config: {
     		latitude: 0,
     		longitude: 0,
-    		accuracy: 0,
-    		b_geolocation: false,
-    		
-    		//category: 0, // <<<<<<<<<<<<<<<<<<<<<<<< ----------------- check if need it
-    		//venue: {}
-    	}
+    		accuracy: 0
+    	},
+    	
+    	b_geolocation: false,
+    	
+    	categories: [],
+    	category: 0,
+
+		venues: [],    	
+		venue: {}
     },
+    watch: {
+    	b_geolocation: function (geolocation) {
+    		if(geolocation)
+			{
+    			this.getCategories();
+    			this.getVenuesNearYou();
+			}
+		}
+	},
     created: function () {
     	this.getCurrentPosition();
 	},
@@ -390,16 +458,52 @@ const vm = new Vue({
 			this.config.latitude = crd.latitude;
 			this.config.longitude = crd.longitude;
 			this.config.accuracy = crd.accuracy;
-			this.config.b_geolocation = true;
+
+			this.b_geolocation = true;
 		},
 		/**
     	 * @name getCurrentPositionError
     	 * @description In case of geolocalization disabled.
     	 */
 		getCurrentPositionError(err) {
+			
 			this.b_geolocation = false;
 			
 			console.log("Geolocalization disabled!");
-		}
+		},
+		
+		/**
+    	 * @name getCategories
+    	 * @description Get categories
+    	 */
+		getCategories() {
+			
+			// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-categories');
+			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {
+				this.categories = response.data.response.categories;
+			});
+    	},
+    	
+    	/**
+    	 * @name getVenuesNearYou
+    	 * @description Get venues near you
+    	 */
+		getVenuesNearYou() {
+			
+			// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-venues-per-current-city');
+			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {				
+				this.venues = response.data.response.venues;
+			});
+		},
     }
 });

@@ -16,7 +16,7 @@ if(!interface_exists('iFoursquareWrapper'))
     interface iFoursquareWrapper
     {
         public function setAction(string $action) : void;
-        public function setLL(string $ll) : void;
+        public function setLL(?string $ll) : void;
         public function setIntent(?string $intent) : void;
         public function setName(?string $name) : void;
         public function setLimit(?int $limit) : void;
@@ -96,7 +96,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
 		 */
-		public function setLL(string $ll) : void 
+		public function setLL(?string $ll) : void 
 		{ 
 		    $this->ll = $ll; 
 		}
@@ -176,7 +176,7 @@ if(!class_exists('FoursquareWrapper'))
 		 */
 		public function setCategoryId(?string $category_id) : void
 		{
-		    $this->category_id = $category_id; 
+		    $this->categoryId = $category_id; 
 		}
 		
 		/**
@@ -298,7 +298,7 @@ if(!class_exists('FoursquareWrapper'))
 		 */
 		protected function preparePost() : void
 		{
-		    switch( $this->action )
+		    switch($this->action)
 		    {
 		        case 'get-categories':
 		            $this->endpoint = 'venues/categories';
@@ -328,7 +328,7 @@ if(!class_exists('FoursquareWrapper'))
 		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'get-venue-details':
-		            $this->endpoint = sprintf('venues/%s', $this->id_venxue);
+		            $this->endpoint = sprintf('venues/%s', $this->id_venue);
 		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'get-photos-per-venue':

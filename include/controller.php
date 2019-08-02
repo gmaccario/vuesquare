@@ -18,7 +18,7 @@ if($action != '')
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $limit = filter_input(INPUT_POST, 'limit', FILTER_SANITIZE_NUMBER_INT);
     $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
-    $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_STRING);
+    $category_id = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_STRING);
     
     $foursquare = new FoursquareApi(CLIENT_ID, CLIENT_SECRET);
     
