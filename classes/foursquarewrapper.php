@@ -22,6 +22,7 @@ if(!interface_exists('iFoursquareWrapper'))
         public function setLimit(?int $limit) : void;
         public function setNear(?string $near) : void;
         public function setIdVenue(?string $id_venue) : void;
+        public function setCategoryId(?string $category_id) : void;
         
         public function getAction() : string;
         public function getLL() : string;
@@ -30,6 +31,7 @@ if(!interface_exists('iFoursquareWrapper'))
         public function getLimit() : ?int;
         public function getNear() : ?string ;
         public function getIdVenue() : ?string ;
+        public function getCategoryId() : ?string;
         
         public function executePost() : ?string;
     }
@@ -55,6 +57,7 @@ if(!class_exists('FoursquareWrapper'))
 		protected $name;
 		protected $near;
 		protected $id_venue;
+		protected $categoryId;
 		
 		protected $endpoint = '';
 		protected $params = [];
@@ -164,6 +167,19 @@ if(!class_exists('FoursquareWrapper'))
 		}
 		
 		/**
+		 * @name setCategoryId
+		 *
+		 * @param string $category_id
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return void
+		 */
+		public function setCategoryId(?string $category_id) : void
+		{
+		    $this->category_id = $category_id; 
+		}
+		
+		/**
 		 * @name getAction
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
@@ -239,6 +255,18 @@ if(!class_exists('FoursquareWrapper'))
 		{ 
 		    return $this->id_venue; 
 		}
+		
+		/**
+		 * @name getCategoryId
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return string
+		 */
+		public function getCategoryId() : ?string
+		{
+		    return $this->categoryId;
+		}
+		
 		
 		/**
 		 * @name executePost
