@@ -21,14 +21,14 @@
 #foursquare-integration .categories{padding:1em;clear:both;}
 #foursquare-integration .categories li{padding:0.5em;}
 #foursquare-integration .categories li .info::after{content: " | "}
-#foursquare-integration .categories li .thumbnail img{ background-color: #c0c0c0;}
+#foursquare-integration .categories li .thumbnail img{background-color: #c0c0c0;}
 
 /**
 * VENUES
 */
-#foursquare-integration .venues-near-you li{padding:1em;}
-#foursquare-integration .venues-near-you li img{ background-color: #c0c0c0;}
-
+#foursquare-integration .venues-near-you li{padding:1em;border: 1px solid #c0c0c0;margin-bottom: 1em;}
+#foursquare-integration .venues-near-you li img{background-color: #c0c0c0;}
+#foursquare-integration .venues-near-you li .alert{background-color: transparent; border: none;padding: .75rem 0;}
 
 /*#foursquare-integration .venues-near-you, 
 #foursquare-integration .venues-near-you.details{background: #c0c0c0;padding:1em;}*/

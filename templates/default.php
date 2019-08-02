@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
 	<link rel="stylesheet" href="<?php echo FTI_URL_CSS; ?>style.css" />
     
-    <title>PHP 7, Foursquare API, Vue.js, Bootstrap</title>
+    <title>PHP 7, Foursquare API, Vue.js, Axios, Bootstrap</title>
   </head>
   <body>
     <div class="container">
@@ -20,7 +20,7 @@
 				  </a>
 				</h1>
 
-				<h2 class="float-right">PHP 7, Foursquare API, Vue.js, Bootstrap</h2>  
+				<h2 class="float-right">PHP 7, Foursquare API, Vue.js, Axios, Bootstrap</h2>  
 				
 				<div class="clearfix"></div>
 				

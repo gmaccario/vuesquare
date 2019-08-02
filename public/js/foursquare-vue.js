@@ -42,7 +42,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 			
 			axios.post('/', params).then((response) => {
 				if(response.data.response.venues[0])
-				{
+				{					
 					this.location_name = response.data.response.venues[0].name;
 					this.location = response.data.response.venues[0].location;	
 				}
@@ -58,8 +58,17 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 		  		
 		  		<span v-show="!location_name">Loading...</span>
 		  		
-		  		<span v-show="location_name">You are in {{ location_name }} - {{ location.country }} ({{ location.cc }})</span>
-		  		
+		  		<div class="location" v-show="location_name">
+  					<span>You are in </span>
+  					<span>{{ location_name }}</span>
+  					<span> - </span>
+  					<span v-if="location.city">{{ location.city }}</span>
+  					<span v-if="location.city">, </span>
+  					<span>{{ location.country }}</span>
+  					<span> </span>
+  					<span>({{ location.cc }})</span>
+		  		</div>
+
 		  		<p>Here your precise location:</p>
 		  	</p>
 		  	
@@ -83,7 +92,8 @@ const FSCategories = Vue.component('fs-categories',{
 	},
 	data(){
 		return {
-			categories: []
+			categories: [],
+			current: 0
 		}
 	},
 	created: function () {
@@ -98,13 +108,25 @@ const FSCategories = Vue.component('fs-categories',{
 
 			// ES2017 async/await support
 			const params = new URLSearchParams();
-			params.append('action', 'get_categories');
+			params.append('action', 'get-categories');
 			params.append('ll', this.config.latitude + "," + this.config.longitude);
 			params.append('intent', 'checkin');
 			
 			axios.post('/', params).then((response) => {
 				this.categories = response.data.response.categories;
 			});
+    	},
+    	
+    	/**
+    	 * @name getVenuesByCategory
+    	 * @description Get the list of venue by category
+    	 */
+    	getVenuesByCategory(category_id) {
+    		this.current = category_id;
+    		
+    		console.log("FSCategories: ", this.current);
+    		
+    		this.$emit('get-venues-by-category');
     	}
 	},
   	template:`  	
@@ -116,7 +138,7 @@ const FSCategories = Vue.component('fs-categories',{
 		  	<ul>
 		  		<li v-for="category in categories">
 		  			<div class="thumbnail">
-		  				<a href="#" @click="openCategoryDetails(category.id);">
+		  				<a href="#" @click="getVenuesByCategory(category.id);">
   							<img :src="category.icon.prefix + '32' + category.icon.suffix" />
   							<span class="shortName">{{ category.shortName }}</span>
 		  				</a>
@@ -131,16 +153,16 @@ const FSCategories = Vue.component('fs-categories',{
  */
 const FSVenueDetails = Vue.component('fs-venue-details',{
 	props: {
-		config: {
-			type: Object,
-			required: true
+		id: {
+			type: String,
+			required: false
 		}
 	},
   	template:`  	
   		<div class="wrapper venue-details">
 		  	<h4>Venue Details</h4>
 		  	
-		  	{{ config }}
+		  	{{ id }}
   		</div>`
 });
 
@@ -156,7 +178,8 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	},
 	data(){
 		return {
-			venues: []
+			venues: [],
+			current: 0
 		}
 	},
 	created: function () {
@@ -171,13 +194,26 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			
 			// ES2017 async/await support
 			const params = new URLSearchParams();
-			params.append('action', 'get_venues_per_current_city');
+			params.append('action', 'get-venues-per-current-city');
 			params.append('ll', this.config.latitude + "," + this.config.longitude);
 			params.append('intent', 'checkin');
 			
-			axios.post('/', params).then((response) => {
+			axios.post('/', params).then((response) => {				
 				this.venues = response.data.response.venues;
 			});
+		},
+		
+		/**
+    	 * @name getVenueById
+    	 * @description Get venues near you
+    	 */
+		getVenueById(venue_id) {
+			
+			this.current = venue_id;
+    		
+    		console.log("FSVenuesNearYou", this.current);
+    		
+    		//this.$emit('get-venue-by-id');
 		}
 	},
   	template:`  	
@@ -187,19 +223,60 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 		  	<p v-show="!venues.length">Loading...</p>
 		  	
 		  	<ul>
-		  		<li v-for="(venue, key) in venues">
-		  		
-  					<img class="icon float-left" v-for="category in venue.categories" v-bind:src="category.icon.prefix + '64' + category.icon.suffix" />
-  					<span>in </span>
-  					<span>{{ venue.location.distance }} </span>
-  					<span>meters</span>
-		  		
-		  			<span>{{ venue.name }}</span>
-		  			<span v-for="piece in venue.location.formattedAddress">{{ piece }}, </span>
+		  		<li v-for="(venue, index) in venues">
+
+  					<div class="float-left">
+			  			<div class="category icon">
+	  						<img class="icon" 
+	  							v-if="venue.categories[0]" 
+	  							v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" 
+	  							alt="venue.categories[0].name" 
+	  							:title="venue.categories[0].name" />
+	  							
+	  						<img class="icon" 
+	  							v-if="!venue.categories[0]" 
+	  							src="https://via.placeholder.com/64" 
+	  							alt="No category" 
+	  							title="No category" />
+	  					</div>
+	  				
+	  					<div class="distance">
+	  					  	<span>in </span>
+	  						<span>{{ venue.location.distance }} </span>
+	  						<span>meters</span>
+	  					</div>
+  					</div>
+
+		  			<div class="details">
+			  			<h5 class="text-right">
+			  				<a href="#" @click="getVenueById(venue.id);">
+			  					<span>{{ venue.name }}</span>
+			  				</a>
+			  			</h5>
+			  			
+			  			<h6 class="text-right" v-if="venue.categories[0]" >{{ venue.categories[0].name }}</h6>
+			  			
+			  			<div class="address text-right">
+							<span v-if="venue.location.address">{{ venue.location.address }}</span>
+							<span v-if="venue.location.address"><br /></span> 
+							<span v-if="venue.location.city">{{ venue.location.city }}</span>
+							<span v-if="venue.location.city">-</span> 
+							<span v-if="venue.location.state">{{ venue.location.state }}</span> 
+							<span v-if="venue.location.state">-</span>
+							<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+						</div>
+						
+						<div class="other text-right">
+							<span v-if="venue.hereNow.count > 0" class="alert alert-success hereNow">
+  								<i aria-hidden="true" class="fa fa-star"></i> 
+  								<span>{{ venue.hereNow.summary }}</span>
+  							</span>
+						</div>
+		  			</div>
 		  			
-		  			<p class="nmb">{{ key + 1 }}</p>
-		  			
-		  			<br />-------------------------------------<br />
+		  			<div class="text-right">
+  						<p class="nmb">{{ index + 1 }}</p>
+  					</div>
 		  		</li>
 		  	</ul>
   		</div>`
@@ -225,6 +302,9 @@ const FSSidebar = Vue.component('fs-sidebar',{
 			required: true
 		}
 	},
+	method: {
+
+	},
   	template:`  	
   		<div class="wrapper sidebar">
 		  	<h3>Sidebar</h3>
@@ -248,6 +328,7 @@ const FSContent = Vue.component('fs-content',{
 			required: true
 		}
 	},
+	method:{},
   	template:`  	
   		<div class="wrapper content">
 		  	<h3>Content</h3>
@@ -259,8 +340,8 @@ const FSContent = Vue.component('fs-content',{
 
 /* *****************************************************************************************
  *  
- *  Vm is responsible for asking the permission to the users to get their coordinates 
- *  and set up the config object that will be pass to the other components.
+ *  Vm is responsible to get the coordinates to the users and set up the config object 
+ *  that will be pass to the other components.
  *  
  */
 const vm = new Vue({
@@ -275,6 +356,9 @@ const vm = new Vue({
     		longitude: 0,
     		accuracy: 0,
     		b_geolocation: false,
+    		
+    		//category: 0, // <<<<<<<<<<<<<<<<<<<<<<<< ----------------- check if need it
+    		//venue: {}
     	}
     },
     created: function () {
@@ -315,7 +399,7 @@ const vm = new Vue({
 		getCurrentPositionError(err) {
 			this.b_geolocation = false;
 			
-			console.log( "Geolocalization disabled!" );
-		},
+			console.log("Geolocalization disabled!");
+		}
     }
 });

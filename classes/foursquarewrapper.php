@@ -255,7 +255,8 @@ if(!class_exists('FoursquareWrapper'))
 			    $response = $this->foursquare->GetPublic($this->endpoint, $this->params);
 			    
 			    header('Content-Type: application/json');
-			    echo $response;
+			    
+			    echo strip_tags($response);
 			}
 			
 			return null;
@@ -271,38 +272,38 @@ if(!class_exists('FoursquareWrapper'))
 		{
 		    switch( $this->action )
 		    {
+		        case 'get-categories':
+		            $this->endpoint = 'venues/categories';
+		            $this->params['ll'] = $this->ll;
+		            $this->params['intent'] = $this->intent;
+		            break;
 		        case 'where-i-am':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
 		            $this->params['limit'] = $this->limit;
 		            break;
-		        case 'get_categories':
-		            $this->endpoint = 'venues/categories';
-		            $this->params['ll'] = $this->ll;
-		            $this->params['intent'] = $this->intent;
-		            break;
-		        case 'get_venues_per_current_city':
+		        case 'get-venues-per-current-city':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
 		            break;
-		        case 'get_venues_per_category':
+		        case 'get-venues-by-category':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
 		            $this->params['categoryId'] = $this->categoryId;
 		            break;
-		        case 'search_near_to':
+		        case 'search-near-to':
 		            $this->endpoint = 'venues/search';
 		            $this->params['near'] = $this->near;
 		            $this->params['intent'] = $this->intent;
 		            break;
-		        case 'get_venue_details':
+		        case 'get-venue-details':
 		            $this->endpoint = sprintf('venues/%s', $this->id_venxue);
 		            $this->params['intent'] = $this->intent;
 		            break;
-		        case 'get_photos_per_venue':
+		        case 'get-photos-per-venue':
 		            $this->endpoint = sprintf('venues/%s/photos', $this->id_venue);
 		            $this->params['intent'] = $this->intent;
 		            $this->params['group'] = 'venue';
