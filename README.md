@@ -42,7 +42,7 @@ Tested on PHP 7.1.20
 
 ## TODO
 - Add live filters
-- Gets the form (second case, no geolocation activated) always displayed on the page
+- Get the form always displayed on the page (second case, no geolocation activated)
 - Components separation (different files)
 - Implement $emit or EventBus
 - Test Unit for the wrapper

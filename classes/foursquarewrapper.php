@@ -3,7 +3,7 @@
  * FoursquareWrapper
  * 
  * 
- * @package php-foursquare 
+ * @package VueSquare
  * @author Giuseppe Maccario <g_maccario@hotmail.com>
  * @version 1.0.1
  * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
@@ -25,7 +25,7 @@ if(!interface_exists('iFoursquareWrapper'))
         public function setCategoryId(?string $category_id) : void;
         
         public function getAction() : string;
-        public function getLL() : string;
+        public function getLL() : ?string;
         public function getIntent() : ?string;
         public function getName() : ?string;
         public function getLimit() : ?int;
@@ -196,7 +196,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return string
 		 */
-		public function getLL() : string 
+		public function getLL() : ?string 
 		{ 
 		    return $this->ll; 
 		}
@@ -284,6 +284,7 @@ if(!class_exists('FoursquareWrapper'))
 			    
 			    header('Content-Type: application/json');
 			    
+			    /* Treat any input from external resource as unsafe */
 			    echo strip_tags($response);
 			}
 			

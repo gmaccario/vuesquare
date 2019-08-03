@@ -2,7 +2,7 @@
 
 use \Foursquare\FoursquareWrapper;
 
-/* check params */
+/* Get the action required by the user */
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING, array('options'=>array('default'=> '')));
 
 if($action != '')
