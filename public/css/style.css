@@ -38,6 +38,12 @@
 #foursquare-integration .venue-details .details{padding:1em;border: 1px solid #c0c0c0;margin-bottom: 1em;}
 #foursquare-integration .venue-details .details .verified{color:#155724;}
 #foursquare-integration .venue-details .details .error{color: #856404;}
+#foursquare-integration .venue-details .details .contact a:hover{text-decoration: none;}
+#foursquare-integration .venue-details .details .contact a{}
+#foursquare-integration .venue-details .details .contact a .fa-phone{color: #000000;}
+#foursquare-integration .venue-details .details .contact a .fa-facebook{color: #4267B2;}
+#foursquare-integration .venue-details .details .contact a .fa-twitter{color: #1DA1F2;}
+#foursquare-integration .venue-details .details .alert{background-color: transparent; border: none;padding: .75rem 0;}
 
 /*#foursquare-integration .venues-near-you, 
 #foursquare-integration .venues-near-you.details{background: #c0c0c0;padding:1em;}*/

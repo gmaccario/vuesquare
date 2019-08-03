@@ -140,6 +140,7 @@ const FSCategories = Vue.component('fs-categories',{
 			axios.post('/', params).then((response) => {				
 				
 				this.$root.$data.venues = response.data.response.venues;
+				this.$root.$data.venue = {};
 			});
 			
     		//this.$emit('get-venues-by-category');
@@ -187,7 +188,85 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 			  	</p>
 		  	
 		  		<div v-if="!venue.error">
-		  			{{ venue }}
+	  				<div class="float-left">
+		  				<div class="venue best-photo">
+							<img class="icon" 
+								v-if="venue.bestPhoto" 
+								v-bind:src="venue.bestPhoto.prefix + '64' + venue.bestPhoto.suffix" 
+								:alt="venue.name" 
+								:title="venue.name" />
+								
+							<img class="icon" 
+								v-if="!venue.bestPhoto" 
+								src="https://via.placeholder.com/64" 
+								:alt="venue.name" 
+								:title="venue.name" />
+	  					</div>
+					</div>
+		  					
+		  			<h5 class="text-right">
+		  				<a :href="venue.shortUrl" target="_blank">
+		  					<span>{{ venue.name }}</span>
+		  				</a>
+		  			</h5>
+		  			
+		  			<h6 class="text-right" v-if="venue.categories[0]" >
+		  				<i v-if="venue.verified" class="fa fa-check verified" aria-hidden="true" alt="Verified" title="Verified"></i>
+		  				{{ venue.categories[0].name }}
+		  			</h6>
+		  			
+		  			<div class="address text-right">
+						<span v-if="venue.location.address">{{ venue.location.address }}</span>
+						<span v-if="venue.location.address"><br /></span> 
+						<span v-if="venue.location.city">{{ venue.location.city }}</span>
+						<span v-if="venue.location.city">-</span> 
+						<span v-if="venue.location.state">{{ venue.location.state }}</span> 
+						<span v-if="venue.location.state">-</span>
+						<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+					</div>
+					
+					<div class="likes text-right" :show="venue.likes.count > 0">
+						<span class="value">{{ venue.likes.count }}</span>
+						<span> </span>
+						<span class="label">likes</span>
+					</div>
+					
+					<div class="rating text-right" :show="venue.likes.rating > 0">
+						<span class="label">Rating</span>
+						<span> </span>
+						<span class="value">{{ venue.rating }}</span>
+					</div>
+
+					<div class="contact text-right">
+						<a href="tel:555-555-5555" :show="venue.contact.phone">
+  							<i class="fa fa-phone" aria-hidden="true"></i>
+  							<span v-if="venue.contact.phone">{{ venue.contact.phone }}</span>
+						</a>
+						
+						<a :href="'https://www.facebook.com/profile.php?id=' + venue.contact.facebook" target="_blank" :show="venue.contact.facebook">
+  							<i class="fa fa-facebook" aria-hidden="true"></i>
+						</a>
+						
+						<a :href="'https://twitter.com/' + venue.contact.twitter" v-if="venue.contact.twitter" target="_blank" :show="venue.contact.twitter">
+  							<i class="fa fa-twitter" aria-hidden="true"></i>
+						</a>
+					</div>
+					
+					<div class="other text-right" :show="venue.hereNow.count > 0">
+						<span class="alert alert-success hereNow">
+							<i aria-hidden="true" class="fa fa-star"></i> 
+							<span>{{ venue.hereNow.summary }}</span>
+						</span>
+					</div>
+					
+					<div class="rating text-left" :show="venue.tips.count > 0">
+  						<p>
+  							<span>Tips: </span>
+  							<span>{{ venue.tips.groups[0].items[0].text }}</span>
+  						</p>
+  						
+  						<span>{{ venue.tips.groups[0].items[0].likes.summary }}</span>
+					</div>
 		  		</div>
 		  	</div>
   		</div>`
@@ -501,6 +580,7 @@ const vm = new Vue({
 			
 			axios.post('/', params).then((response) => {				
 				this.venues = response.data.response.venues;
+				this.venue = {};
 			});
 		},
     }
