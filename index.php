@@ -14,7 +14,8 @@ define( 'FTI_ENV', 'dev' );
 if( FTI_ENV == 'dev' )
 {
 	ini_set('display_errors', 1);
-	error_reporting(E_ALL);	
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 }
 
 function fs_v_init()

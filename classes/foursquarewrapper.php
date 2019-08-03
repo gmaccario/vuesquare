@@ -43,8 +43,8 @@ if(!class_exists('FoursquareWrapper'))
 {
     /**
      * @name FoursquareWrapper
-     * @description Foursquare Wrapper that receive the FoursquareAPI object as dependency injection 
-     * and use it to make the call to the Foursquare service. 
+     * @description Foursquare Wrapper that use the FoursquareAPI object as dependency injection 
+     * and returns the response of the Foursquare service. 
      *
      * @author G.Maccario <g_maccario@hotmail.com>
      * @return
