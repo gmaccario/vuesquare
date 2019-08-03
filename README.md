@@ -39,12 +39,12 @@ Tested on PHP 7.1.20
 - Installed PSR-4 autoloader
 - Installed php-foursquare from Composer
 - Refactoring of fs Vuejs
+- Implemented EventBus
 
 ## TODO
 - Add live filters
 - Get the form always displayed on the page (second case, no geolocation activated)
 - Components separation (different files)
-- Implement $emit or EventBus
 - Test Unit for the wrapper
 
 ## Live demo
