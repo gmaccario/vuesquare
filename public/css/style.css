@@ -19,18 +19,17 @@
 * CATEGORIES
 */
 #foursquare-integration .categories{padding:1em;clear:both;}
-#foursquare-integration .categories li{padding:0.5em;}
-#foursquare-integration .categories li a:hover{text-decoration: none;}
-#foursquare-integration .categories li a span.current{text-decoration: underline;}
-#foursquare-integration .categories li .info::after{content: " | "}
-#foursquare-integration .categories li .thumbnail img{background-color: #c0c0c0;}
+#foursquare-integration .categories .row{padding:0.5em;}
+#foursquare-integration .categories .row a span.current{text-decoration: underline;}
+#foursquare-integration .categories .row .info::after{content: " | "}
+#foursquare-integration .categories .row img{background-color: #c0c0c0;}
 
 /**
-* VENUES
+* VENUES NEAR YOU
 */
-#foursquare-integration .venues-near-you li{padding:1em;border: 1px solid #c0c0c0;margin-bottom: 1em;}
-#foursquare-integration .venues-near-you li img{background-color: #c0c0c0;}
-#foursquare-integration .venues-near-you li .alert{background-color: transparent; border: none;padding: .75rem 0;}
+#foursquare-integration .venues-near-you .row{padding:1em;border: 1px solid #c0c0c0;margin-bottom: 1em;}
+#foursquare-integration .venues-near-you .row img{background-color: #c0c0c0;}
+#foursquare-integration .venues-near-you .row .alert{background-color: transparent; border: none;padding: .75rem 0;}
 
 /**
 * VENUE DETAILS

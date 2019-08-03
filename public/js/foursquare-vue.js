@@ -135,18 +135,20 @@ const FSCategories = Vue.component('fs-categories',{
 		  	
   			<p v-show="!categories.length">Loading...</p>
   			
-		  	<ul>
-		  		<li v-for="category in categories">
-		  			<div class="thumbnail">
-		  				<a href="#" @click="getVenuesByCategory(category.id);">
-  							<img :src="category.icon.prefix + '32' + category.icon.suffix" />
-  							<span class="shortName" :class="(current == category.id) ? 'current' : ''">
-  								{{ category.shortName }}
-  							</span>
-		  				</a>
-		  			</div>
-		  		</li>
-		  	</ul>
+		  	<div class="row" v-for="category in categories">
+				<div class="col-4">
+					<a href="#" @click="getVenuesByCategory(category.id);">
+						<img :src="category.icon.prefix + '32' + category.icon.suffix" />
+					</a>
+				</div>
+				<div class="col-8">
+					<a href="#" @click="getVenuesByCategory(category.id);">
+						<span class="shortName" :class="(current == category.id) ? 'current' : ''">
+							{{ category.shortName }}
+						</span>
+					</a>
+				</div>
+			</div>
   		</div>`
 });
 
@@ -172,7 +174,7 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 		  	
 				<div v-if="!venue.error">
 				  	<div class="row">
-            			<div class="col-sm-4">
+            			<div class="col-4">
 							<div class="venue best-photo">
 								<img class="icon" 
 									v-if="venue.bestPhoto" 
@@ -202,7 +204,7 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 							</div>
 						</div>
 
-						<div class="col-sm-8">
+						<div class="col-8">
 							<h5 class="text-right">
 								<a :href="venue.shortUrl" target="_blank">
 									<span>{{ venue.name }}</span>
@@ -312,64 +314,64 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 		  	<h3>Venues Near You</h3>
 		  	
 		  	<p v-show="!venues.length">Loading...</p>
-		  	
-		  	<ul>
-		  		<li v-for="(venue, index) in venues">
+			
+			<div class="row" v-for="(venue, index) in venues">
+				  
+				<div class="col-4">
+					<div class="category icon">
+						<img class="icon" 
+							v-if="venue.categories[0]" 
+							v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" 
+							alt="venue.categories[0].name" 
+							:title="venue.categories[0].name" />
+							
+						<img class="icon" 
+							v-if="!venue.categories[0]" 
+							src="https://via.placeholder.com/64" 
+							alt="No category" 
+							title="No category" />
+					</div>
+				
+					<div class="distance">
+						<span>in </span>
+						<span>{{ venue.location.distance }} </span>
+						<span>meters</span>
+					</div>
+				</div>
 
-  					<div class="float-left">
-			  			<div class="category icon">
-	  						<img class="icon" 
-	  							v-if="venue.categories[0]" 
-	  							v-bind:src="venue.categories[0].icon.prefix + '64' + venue.categories[0].icon.suffix" 
-	  							alt="venue.categories[0].name" 
-	  							:title="venue.categories[0].name" />
-	  							
-	  						<img class="icon" 
-	  							v-if="!venue.categories[0]" 
-	  							src="https://via.placeholder.com/64" 
-	  							alt="No category" 
-	  							title="No category" />
-	  					</div>
-	  				
-	  					<div class="distance">
-	  					  	<span>in </span>
-	  						<span>{{ venue.location.distance }} </span>
-	  						<span>meters</span>
-	  					</div>
-  					</div>
-
-		  			<div class="details">
-			  			<h4 class="text-right">
-			  				<a href="#" @click="getVenueById(venue.id);">
-			  					<span>{{ venue.name }}</span>
-			  				</a>
-			  			</h4>
-			  			
-			  			<h6 class="text-right" v-if="venue.categories[0]" >{{ venue.categories[0].name }}</h6>
-			  			
-			  			<div class="address text-right">
-							<span v-if="venue.location.address">{{ venue.location.address }}</span>
-							<span v-if="venue.location.address"><br /></span> 
-							<span v-if="venue.location.city">{{ venue.location.city }}</span>
-							<span v-if="venue.location.city">-</span> 
-							<span v-if="venue.location.state">{{ venue.location.state }}</span> 
-							<span v-if="venue.location.state">-</span>
-							<span v-if="venue.location.country">{{ venue.location.country }}</span> 
-						</div>
-						
-						<div class="other text-right">
-							<span v-if="venue.hereNow.count > 0" class="alert alert-success hereNow">
-  								<i aria-hidden="true" class="fa fa-star"></i> 
-  								<span>{{ venue.hereNow.summary }}</span>
-  							</span>
-						</div>
-		  			</div>
-		  			
-		  			<div class="text-right">
-  						<p class="nmb">{{ index + 1 }}</p>
-  					</div>
-		  		</li>
-		  	</ul>
+				<div class="col-8 details">
+					<h4 class="text-right">
+						<a href="#" @click="getVenueById(venue.id);">
+							<span>{{ venue.name }}</span>
+						</a>
+					</h4>
+					
+					<h6 class="text-right" v-if="venue.categories[0]" >{{ venue.categories[0].name }}</h6>
+					
+					<div class="address text-right">
+						<span v-if="venue.location.address">{{ venue.location.address }}</span>
+						<span v-if="venue.location.address"><br /></span> 
+						<span v-if="venue.location.city">{{ venue.location.city }}</span>
+						<span v-if="venue.location.city">-</span> 
+						<span v-if="venue.location.state">{{ venue.location.state }}</span> 
+						<span v-if="venue.location.state">-</span>
+						<span v-if="venue.location.country">{{ venue.location.country }}</span> 
+					</div>
+					
+					<div class="other text-right">
+						<span v-if="venue.hereNow.count > 0" class="alert alert-success hereNow">
+							<i aria-hidden="true" class="fa fa-star"></i> 
+							<span>{{ venue.hereNow.summary }}</span>
+						</span>
+					</div>
+				</div>
+				
+				<div class="col-12">
+					<div class="text-right">
+						<p class="nmb">{{ index + 1 }}</p>
+					</div>
+				</div>
+			</div>
   		</div>`
 });
 
