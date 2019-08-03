@@ -1,5 +1,14 @@
 /* *****************************************************************************************
  *  
+ *  Event Bus
+ *  
+ *  
+ */
+const bus = new Vue();
+
+
+/* *****************************************************************************************
+ *  
  *  Child Components 
  *  
  *  
@@ -21,7 +30,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 			location: {}
 		}
 	},
-	created: function () {
+	created() {
     	this.setWhereIAm();
 	},
 	methods: {
@@ -100,7 +109,7 @@ const FSCategories = Vue.component('fs-categories',{
 			current: this.$root.$data.category
 		}
 	},
-	created: function () {
+	created() {
 		
 	},
 	methods: {
@@ -112,21 +121,8 @@ const FSCategories = Vue.component('fs-categories',{
     	getVenuesByCategory(category_id) {
     		
     		this.current = category_id;
-    		
-    		// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-venues-by-category');
-			params.append('ll', this.config.latitude + "," + this.config.longitude);
-			params.append('categoryId', this.current);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {				
-				
-				this.$root.$data.venues = response.data.response.venues;
-				this.$root.$data.venue = {};
-			});
-			
-    		//this.$emit('get-venues-by-category');
+
+			bus.$emit('update-venues-by-category', category_id);
     	}
 	},
   	template:`  	
@@ -277,7 +273,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			current: this.$root.$data.venue
 		}
 	},
-	created: function () {
+	created() {
 		
 	},
 	methods: {
@@ -290,23 +286,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			
 			this.current = venue_id;
 
-    		// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-venue-details');
-			params.append('id_venue', this.current);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {				
-				
-				if(response.data.meta.code != 429){
-					this.$root.$data.venue = response.data.response.venue;
-				}
-				else {
-					Vue.set(this.$root.$data.venue, 'error', response.data.meta.code);
-				}
-			});
-
-    		//this.$emit('get-venue-by-id');
+			bus.$emit('get-venue-by-id', venue_id);
 		}
 	},
   	template:`  	
@@ -475,8 +455,18 @@ const vm = new Vue({
 			}
 		}
 	},
-    created: function () {
-    	this.getCurrentPosition();
+    created(){
+		this.getCurrentPosition();
+		
+		bus.$on('update-venues-by-category', (categoryId) => {
+
+			this.getVenuesNearYou(categoryId);
+		});
+
+		bus.$on('get-venue-by-id', (venue_id) => {
+
+			this.getVenueById(venue_id);
+		});
 	},
     methods: {
     	/**
@@ -539,18 +529,49 @@ const vm = new Vue({
     	 * @name getVenuesNearYou
     	 * @description Get venues near you
     	 */
-		getVenuesNearYou() {
-			
+		getVenuesNearYou(categoryId) {
+
 			// ES2017 async/await support
 			const params = new URLSearchParams();
-			params.append('action', 'get-venues-per-current-city');
 			params.append('ll', this.config.latitude + "," + this.config.longitude);
 			params.append('intent', 'checkin');
-			
+
+			if(!categoryId){
+				params.append('action', 'get-venues-per-current-city');
+			}
+			else {
+				params.append('action', 'get-venues-by-category');
+				params.append('categoryId', categoryId);
+			}
+
 			axios.post('/', params).then((response) => {				
+
 				this.venues = response.data.response.venues;
 				this.venue = {};
 			});
 		},
+
+		/**
+    	 * @name getVenueById
+    	 * @description Get venues near you
+    	 */
+		getVenueById(venue_id) {
+
+    		// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-venue-details');
+			params.append('id_venue', venue_id);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {				
+				
+				if(response.data.meta.code != 429){
+					this.venue = response.data.response.venue;
+				}
+				else {
+					Vue.set(this.venue, 'error', response.data.meta.code);
+				}
+			});
+		}
     }
 });
