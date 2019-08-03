@@ -148,7 +148,7 @@ const FSCategories = Vue.component('fs-categories',{
     	 */
     	getVenuesByCategory(category_id) {
     		
-    		this.current = category_id;
+			this.categoryId = category_id;
 
 			bus.$emit('update-venues-by-category', category_id);
     	}
@@ -167,7 +167,7 @@ const FSCategories = Vue.component('fs-categories',{
 				</div>
 				<div class="col-8">
 					<a href="#" @click="getVenuesByCategory(category.id);">
-						<span class="shortName" :class="(categoryId == category.id) ? 'categoryId' : ''">
+						<span class="shortName" :class="(categoryId == category.id) ? 'current' : ''">
 							{{ category.shortName }}
 						</span>
 					</a>
