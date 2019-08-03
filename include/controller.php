@@ -17,6 +17,7 @@ if($action != '')
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $limit = filter_input(INPUT_POST, 'limit', FILTER_SANITIZE_NUMBER_INT);
     $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
+    $radius = filter_input(INPUT_POST, 'radius', FILTER_SANITIZE_NUMBER_INT);
     $category_id = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_STRING);
     
     /**
@@ -33,6 +34,7 @@ if($action != '')
 	$foursquareWrapper->setName($name);
 	$foursquareWrapper->setLimit($limit);
 	$foursquareWrapper->setIdVenue($id_venue);
+	$foursquareWrapper->setRadius($radius);
 	$foursquareWrapper->setCategoryId($category_id);
 	
 	return $foursquareWrapper->executePost();

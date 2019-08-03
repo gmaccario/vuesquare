@@ -21,6 +21,7 @@ if(!interface_exists('iFoursquareWrapper'))
         public function setName(?string $name) : void;
         public function setLimit(?int $limit) : void;
         public function setNear(?string $near) : void;
+        public function setRadius(?int $radius) : void;
         public function setIdVenue(?string $id_venue) : void;
         public function setCategoryId(?string $category_id) : void;
         
@@ -30,6 +31,7 @@ if(!interface_exists('iFoursquareWrapper'))
         public function getName() : ?string;
         public function getLimit() : ?int;
         public function getNear() : ?string ;
+        public function getRadius() : ?int;
         public function getIdVenue() : ?string ;
         public function getCategoryId() : ?string;
         
@@ -56,6 +58,7 @@ if(!class_exists('FoursquareWrapper'))
 		protected $intent;
 		protected $name;
 		protected $near;
+		protected $radius;
 		protected $id_venue;
 		protected $categoryId;
 		
@@ -91,7 +94,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setLL
 		 *
-		 * @param string $ll
+		 * @param ?string $ll
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -104,7 +107,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setIntent
 		 *
-		 * @param string $intent
+		 * @param ?string $intent
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -117,7 +120,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setName
 		 *
-		 * @param string $intent
+		 * @param ?string $intent
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -130,7 +133,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setLimit
 		 *
-		 * @param int $limit
+		 * @param ?int $limit
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -143,7 +146,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setNear
 		 *
-		 * @param string $near
+		 * @param ?string $near
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -154,9 +157,22 @@ if(!class_exists('FoursquareWrapper'))
 		}
 		
 		/**
+		 * @name setRadius
+		 *
+		 * @param int $radius
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return void
+		 */
+		public function setRadius(?int $radius) : void
+		{
+		    $this->radius = $radius; 
+		}
+		
+		/**
 		 * @name setIdVenue
 		 *
-		 * @param string $id_venue
+		 * @param ?string $id_venue
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -169,7 +185,7 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name setCategoryId
 		 *
-		 * @param string $category_id
+		 * @param ?string $category_id
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return void
@@ -194,7 +210,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getLL
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getLL() : ?string 
 		{ 
@@ -205,7 +221,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getIntent
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getIntent() : ?string
 		{ 
@@ -216,7 +232,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getName
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getName() : ?string
 		{
@@ -227,7 +243,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getLimit
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return int
+		 * @return ?int
 		 */
 		public function getLimit() : ?int
 		{
@@ -238,7 +254,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getNear
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getNear() : ?string 
 		{ 
@@ -246,10 +262,21 @@ if(!class_exists('FoursquareWrapper'))
 		}
 		
 		/**
+		 * @name getRadius
+		 *
+		 * @author G.Maccario <g_maccario@hotmail.com>
+		 * @return ?int
+		 */
+		public function getRadius() : ?int
+		{
+		    return $this->radius; 
+		}
+		
+		/**
 		 * @name getIdVenue
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getIdVenue() : ?string 
 		{ 
@@ -260,7 +287,7 @@ if(!class_exists('FoursquareWrapper'))
 		 * @name getCategoryId
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
-		 * @return string
+		 * @return ?string
 		 */
 		public function getCategoryId() : ?string
 		{
@@ -315,6 +342,7 @@ if(!class_exists('FoursquareWrapper'))
 		        case 'get-venues-per-current-city':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
+		            $this->params['radius'] = $this->radius;
 		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'get-venues-by-category':
