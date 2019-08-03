@@ -5,7 +5,9 @@ My first integration using **Foursquare** and **Vue.js**. After spent some times
 
 ## Getting started
 * Clone the repository to create a local copy on your computer and set up a virtual host to visit VueSquare via browser.
-* Open conf/config.php and put your [Foursquare Client ID and Client Secret keys](https://developer.foursquare.com/docs/api).
+* Launch composer dump-autoload to regenerate the list of all classes that need to be included in the project 
+* Open conf/config.php and put your [Foursquare Client ID and Client Secret keys](https://developer.foursquare.com/docs/api)
+* Set up a virtual host (optional)
 * Open VueSquare via browser.
 
 ## Beneath the surface
@@ -29,9 +31,21 @@ I implemented two cases:
 
 Tested on PHP 7.1.20
 
+## Dependencies
+- [php-foursquare](https://github.com/hownowstephen/php-foursquare)
+
+## Change logs
+- v.1.1
+- Installed PSR-4 autoloader
+- Installed php-foursquare from Composer
+- Refactoring of fs Vuejs
+
 ## TODO
 - Add live filters
 - Gets the form (second case, no geolocation activated) always displayed on the page
+- Components separation (different files)
+- Implement $emit or EventBus
+- Test Unit for the wrapper
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)

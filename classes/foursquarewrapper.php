@@ -65,12 +65,12 @@ if(!class_exists('FoursquareWrapper'))
 		/**
 		 * @name __construct
 		 *
-		 * @param FoursquareApi $foursquare
+		 * @param \FoursquareApi $foursquare
 		 *
 		 * @author G.Maccario <g_maccario@hotmail.com>
 		 * @return
 		 */
-		public function __construct(FoursquareApi $foursquare)
+		public function __construct(\FoursquareApi $foursquare)
 		{
 		    $this->foursquare = $foursquare;
 		}

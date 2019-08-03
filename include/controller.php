@@ -1,6 +1,5 @@
 <?php 
 
-use \Foursquare\FoursquareApi;
 use \Foursquare\FoursquareWrapper;
 
 /* check params */
@@ -20,7 +19,11 @@ if($action != '')
     $id_venue = filter_input(INPUT_POST, 'id_venue', FILTER_SANITIZE_STRING);
     $category_id = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_STRING);
     
-    $foursquare = new FoursquareApi(CLIENT_ID, CLIENT_SECRET);
+    /**
+     * https://github.com/hownowstephen/php-foursquare
+     * @var \FoursquareApi $foursquare
+     */
+    $foursquare = new \FoursquareApi(CLIENT_ID, CLIENT_SECRET);
     
     $foursquareWrapper = new FoursquareWrapper($foursquare);
 	$foursquareWrapper->setAction($action);
