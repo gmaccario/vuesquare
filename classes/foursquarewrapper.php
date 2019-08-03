@@ -333,13 +333,13 @@ if(!class_exists('FoursquareWrapper'))
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
 		            break;
-		        case 'where-i-am':
+		        case 'where-am-i':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['intent'] = $this->intent;
 		            $this->params['limit'] = $this->limit;
 		            break;
-		        case 'get-venues-per-current-city':
+		        case 'get-venues-per-coords':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
 		            $this->params['radius'] = $this->radius;

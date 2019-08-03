@@ -22,7 +22,11 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 		config: {
 			type: Object,
 			required: true
-		}
+		},
+		geolocation_enabled: {
+			type: Boolean,
+			required: true
+		},
 	},
 	data(){
 		return {
@@ -31,8 +35,11 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 		}
 	},
 	created() {
-    	this.setWhereIAm();
-	},
+		if(this.geolocation_enabled)
+		{
+			this.setWhereIAm();
+		}
+    },
 	methods: {
 		/**
     	 * @name setWhereIAm
@@ -44,7 +51,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 			// @note Reverse Geocoding
 			// check also https://wiki.openstreetmap.org/wiki/Nominatim#Reverse_Geocoding_.2F_Address_lookup
 			const params = new URLSearchParams();
-			params.append('action', 'where-i-am');
+			params.append('action', 'where-am-i');
 			params.append('ll', this.config.latitude + "," + this.config.longitude);
 			params.append('intent', 'checkin');
 			params.append('limit', 1);
@@ -79,7 +86,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 		  		</div>
 		  	</div>
 		  	
-		  	<div class="where-i-am">
+		  	<div class="where-am-i">
 			  	<p>Here your precise location:</p>
 			  	<ul>
 			  		<li><span class="label">Latitude: </span><span class="value">{{ config.latitude }}</span></li>
@@ -99,21 +106,42 @@ const FSCategories = Vue.component('fs-categories',{
 			type: Object,
 			required: true
 		},
-		categories: {
-			type: Array,
+		geolocation_enabled: {
+			type: Boolean,
 			required: true
 		}
 	},
 	data(){
 		return {
-			current: this.$root.$data.category
+			categories: [],
+			categoryId: 0
 		}
 	},
 	created() {
-		
+		if(this.geolocation_enabled)
+		{
+			this.getCategories();
+		}		
 	},
 	methods: {
-    	
+		
+		/**
+    	 * @name getCategories
+    	 * @description Get categories
+    	 */
+		getCategories() {
+			
+			// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-categories');
+			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {
+				this.categories = response.data.response.categories;
+			});
+		},
+		
     	/**
     	 * @name getVenuesByCategory
     	 * @description Get the list of venue by category
@@ -139,7 +167,7 @@ const FSCategories = Vue.component('fs-categories',{
 				</div>
 				<div class="col-8">
 					<a href="#" @click="getVenuesByCategory(category.id);">
-						<span class="shortName" :class="(current == category.id) ? 'current' : ''">
+						<span class="shortName" :class="(categoryId == category.id) ? 'categoryId' : ''">
 							{{ category.shortName }}
 						</span>
 					</a>
@@ -153,9 +181,48 @@ const FSCategories = Vue.component('fs-categories',{
  */
 const FSVenueDetails = Vue.component('fs-venue-details',{
 	props: {
-		venue: {
-			type: Object,
-			required: true
+
+	},
+	data(){
+		return {
+			venue: {}
+		}
+	},
+	created() {
+
+		bus.$on('get-venue-by-id', (venue_id) => {
+
+			this.getVenueById(venue_id);
+		});
+
+		bus.$on('reset-venue', () => {
+
+			this.venue = {};
+		});
+	},
+	methods: {
+
+		/**
+    	 * @name getVenueById
+    	 * @description Get venues near you
+    	 */
+		getVenueById(venue_id) {
+
+    		// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'get-venue-details');
+			params.append('id_venue', venue_id);
+			params.append('intent', 'checkin');
+			
+			axios.post('/', params).then((response) => {				
+				
+				if(response.data.meta.code != 429){
+					this.venue = response.data.response.venue;
+				}
+				else {
+					Vue.set(this.venue, 'error', response.data.meta.code);
+				}
+			});
 		}
 	},
   	template:`  	
@@ -263,18 +330,37 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
  */
 const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	props: {
-		venues: {
-			type: Array,
+		config: {
+			type: Object,
 			required: true
-		}
+		},
+		geolocation_enabled: {
+			type: Boolean,
+			required: true
+		},
 	},
 	data(){
 		return {
-			current: this.$root.$data.venue
+			venues: []
+		}
+	},
+	watch: {
+    	geolocation_enabled: function (geolocation) {
+    		if(geolocation)
+			{
+    			this.getVenuesNearYou();
+			}
 		}
 	},
 	created() {
-		
+		if(this.geolocation_enabled){
+			this.getVenuesNearYou();
+		}
+
+		bus.$on('update-venues-by-category', (categoryId) => {
+
+			this.getVenuesNearYou(categoryId);
+		});
 	},
 	methods: {
 		
@@ -283,11 +369,36 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
     	 * @description Get venues near you
     	 */
 		getVenueById(venue_id) {
-			
-			this.current = venue_id;
 
 			bus.$emit('get-venue-by-id', venue_id);
-		}
+		},
+
+		/**
+    	 * @name getVenuesNearYou
+    	 * @description Get venues near you
+    	 */
+		getVenuesNearYou(categoryId) {
+
+			// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('intent', 'checkin');
+
+			if(!categoryId){
+				params.append('action', 'get-venues-per-coords');
+			}
+			else {
+				params.append('action', 'get-venues-by-category');
+				params.append('categoryId', categoryId);
+			}
+
+			axios.post('/', params).then((response) => {				
+
+				this.venues = response.data.response.venues;
+
+				bus.$emit('reset-venue');
+			});
+		},
 	},
   	template:`  	
   		<div class="wrapper venues-near-you">
@@ -374,18 +485,15 @@ const FSSidebar = Vue.component('fs-sidebar',{
 			type: Object,
 			required: true
 		},
-		categories: {
-			type: Array,
+		geolocation_enabled: {
+			type: Boolean,
 			required: true
 		}
 	},
-	method: {
-
-	},
   	template:`  	
   		<div class="wrapper sidebar">
-		  	<fs-current-location :config="config"></fs-current-location>
-		  	<fs-categories :config="config" :categories="categories"></fs-categories>
+		  	<fs-current-location :config="config" :geolocation_enabled="geolocation_enabled"></fs-current-location>
+		  	<fs-categories :config="config" :geolocation_enabled="geolocation_enabled"></fs-categories>
   		</div>`
 });
 
@@ -402,20 +510,15 @@ const FSContent = Vue.component('fs-content',{
 			type: Object,
 			required: true
 		},
-		venues: {
-			type: Array,
+		geolocation_enabled: {
+			type: Boolean,
 			required: true
 		},
-		venue: {
-			type: Object,
-			required: true
-		}
 	},
-	method:{},
   	template:`  	
   		<div class="wrapper content">
-		  	<fs-venue-details :venue="venue"></fs-venue-details>
-		  	<fs-venues-near-you :venues="venues"></fs-venues-near-you>
+		  	<fs-venue-details></fs-venue-details>
+		  	<fs-venues-near-you :config="config" :geolocation_enabled="geolocation_enabled"></fs-venues-near-you>
   		</div>`
 });
 
@@ -438,35 +541,10 @@ const vm = new Vue({
     		accuracy: 0
     	},
     	
-    	b_geolocation: false,
-    	
-    	categories: [],
-    	category: 0,
-
-		venues: [],    	
-		venue: {}
+    	geolocation_enabled: false
     },
-    watch: {
-    	b_geolocation: function (geolocation) {
-    		if(geolocation)
-			{
-    			this.getCategories();
-    			this.getVenuesNearYou();
-			}
-		}
-	},
     created(){
 		this.getCurrentPosition();
-		
-		bus.$on('update-venues-by-category', (categoryId) => {
-
-			this.getVenuesNearYou(categoryId);
-		});
-
-		bus.$on('get-venue-by-id', (venue_id) => {
-
-			this.getVenueById(venue_id);
-		});
 	},
     methods: {
     	/**
@@ -495,7 +573,7 @@ const vm = new Vue({
 			this.config.longitude = crd.longitude;
 			this.config.accuracy = crd.accuracy;
 
-			this.b_geolocation = true;
+			this.geolocation_enabled = true;
 		},
 		/**
     	 * @name getCurrentPositionError
@@ -503,75 +581,9 @@ const vm = new Vue({
     	 */
 		getCurrentPositionError(err) {
 			
-			this.b_geolocation = false;
+			this.geolocation_enabled = false;
 			
 			console.log("Geolocalization disabled!");
-		},
-		
-		/**
-    	 * @name getCategories
-    	 * @description Get categories
-    	 */
-		getCategories() {
-			
-			// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-categories');
-			params.append('ll', this.config.latitude + "," + this.config.longitude);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {
-				this.categories = response.data.response.categories;
-			});
-    	},
-    	
-    	/**
-    	 * @name getVenuesNearYou
-    	 * @description Get venues near you
-    	 */
-		getVenuesNearYou(categoryId) {
-
-			// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('ll', this.config.latitude + "," + this.config.longitude);
-			params.append('intent', 'checkin');
-
-			if(!categoryId){
-				params.append('action', 'get-venues-per-current-city');
-			}
-			else {
-				params.append('action', 'get-venues-by-category');
-				params.append('categoryId', categoryId);
-			}
-
-			axios.post('/', params).then((response) => {				
-
-				this.venues = response.data.response.venues;
-				this.venue = {};
-			});
-		},
-
-		/**
-    	 * @name getVenueById
-    	 * @description Get venues near you
-    	 */
-		getVenueById(venue_id) {
-
-    		// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-venue-details');
-			params.append('id_venue', venue_id);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {				
-				
-				if(response.data.meta.code != 429){
-					this.venue = response.data.response.venue;
-				}
-				else {
-					Vue.set(this.venue, 'error', response.data.meta.code);
-				}
-			});
 		}
     }
 });
