@@ -6,7 +6,7 @@
 
 	<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' id='font-awesome.min-css' media='all' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-	<link rel="stylesheet" href="<?php echo FTI_URL_CSS; ?>style.css" />
+	<link rel="stylesheet" href="./public/css/style.css" />
     
     <title>PHP 7, Foursquare API, Vue.js, Axios, Bootstrap</title>
   </head>
@@ -17,7 +17,7 @@
 		    	<header>
     			    <h1 class="col-4 float-left">
     				  <a href="/">
-    				    <img src="<?php echo FTI_URL_IMAGES; ?>logo.png" class="logo" alt="Foursquare API" />
+    				    <img src="./public/img/logo.png" class="logo" alt="Foursquare API" />
     				  </a>
     				</h1>
     				
@@ -52,6 +52,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-	<script src="<?php echo FTI_URL_JS; ?>foursquare-vue.js"></script>
+	<script src="./public/js/foursquare-vue.js"></script>
   </body>
 </html>
