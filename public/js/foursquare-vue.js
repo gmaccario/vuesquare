@@ -32,7 +32,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
 		setWhereIAm() {
 			
 			// ES2017 async/await support
-			// @note Reverse Geocoding...
+			// @note Reverse Geocoding
 			// check also https://wiki.openstreetmap.org/wiki/Nominatim#Reverse_Geocoding_.2F_Address_lookup
 			const params = new URLSearchParams();
 			params.append('action', 'where-i-am');
@@ -97,30 +97,13 @@ const FSCategories = Vue.component('fs-categories',{
 	},
 	data(){
 		return {
-//			categories: [],
 			current: this.$root.$data.category
 		}
 	},
 	created: function () {
-    	//this.getCategories();
+		
 	},
 	methods: {
-		/**
-    	 * @name getCategories
-    	 * @description Get categories
-    	 */
-		/*getCategories() {
-
-			// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-categories');
-			params.append('ll', this.config.latitude + "," + this.config.longitude);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {
-				this.categories = response.data.response.categories;
-			});
-    	},*/
     	
     	/**
     	 * @name getVenuesByCategory
@@ -277,10 +260,6 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
  */
 const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	props: {
-		/*config: {
-			type: Object,
-			required: true
-		},*/
 		venues: {
 			type: Array,
 			required: true
@@ -288,30 +267,13 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 	},
 	data(){
 		return {
-			//venues: [],
 			current: this.$root.$data.venue
 		}
 	},
 	created: function () {
-    	//this.getVenuesNearYou();
+		
 	},
 	methods: {
-		/**
-    	 * @name getVenuesNearYou
-    	 * @description Get venues near you
-    	 */
-		/*getVenuesNearYou() {
-			
-			// ES2017 async/await support
-			const params = new URLSearchParams();
-			params.append('action', 'get-venues-per-current-city');
-			params.append('ll', this.config.latitude + "," + this.config.longitude);
-			params.append('intent', 'checkin');
-			
-			axios.post('/', params).then((response) => {				
-				this.venues = response.data.response.venues;
-			});
-		},*/
 		
 		/**
     	 * @name getVenueById
