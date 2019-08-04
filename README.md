@@ -36,6 +36,7 @@ Tested on PHP 7.1.20
 
 ## Change logs
 - v.1.1
+- Form when geolocation is not activated
 - Installed PSR-4 autoloader
 - Installed php-foursquare from Composer
 - Refactoring of fs Vuejs
@@ -43,9 +44,9 @@ Tested on PHP 7.1.20
 
 ## TODO
 - Add live filters
-- Form when geolocation is not activated
 - Components separation (different files)
 - Test Unit for the wrapper
+- Sort results by distance
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
