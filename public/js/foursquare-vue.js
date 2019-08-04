@@ -23,6 +23,7 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 	},
 	data(){
 		return {
+			valid: false,
 			city_or_zip_code: ""
 		}
 	},
@@ -31,22 +32,33 @@ const FSManualSearch = Vue.component('fs-manual-search',{
     },
 	methods: {
 		/**
-    	 * @name foo
-    	 * @description 
+    	 * @name validateForm
+    	 * @description Validate form input
     	 */
-		foo() {
-			
+		validateForm(evt) {
+
+			evt.preventDefault();
+
+			this.valid = false;
+			if(this.city_or_zip_code.match(/^\w+$/g) !== null){
+
+				this.valid = true;
+
+				//bus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
+			}
     	}
 	},
 	template:`
-		<form action="#" name="manual-search">
+		<form action="#" name="manual-search" method="post" @submit="validateForm">
+
+			<h3>Manual search</h3>
+
 			<div class="form-group">
-				<label for="exampleInputEmail1">City or zip code</label>
-				<input type="text" class="form-control" id="city_or_zip_code_input" aria-describedby="city_or_zip_code_input" placeholder="Enter city or zip code">
+				<label for="city_or_zip_code_input" v-show="false">City or zip code</label>
+				<input type="text" v-model.trim="city_or_zip_code" class="form-control" id="city_or_zip_code_input" aria-describedby="city_or_zip_code_input" placeholder="Enter city or zip code" />
 			</div>
 			<button type="submit" class="btn btn-primary">Search</button>
-		</form>
-	`
+		</form>`
 });
 
 /**
@@ -104,7 +116,7 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
   		<div class="wrapper current-location">
 		  	<h3>Current Location</h3>
 		  	
-			  <div class="welcome">
+			<div class="welcome">
 
 		  		<span v-show="!location_name">Loading...</span>
 		  	
