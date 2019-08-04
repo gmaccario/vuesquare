@@ -15,6 +15,41 @@ const bus = new Vue();
  */
 
 /**
+ * Manual Search
+ */
+const FSManualSearch = Vue.component('fs-manual-search',{
+	props: {
+		
+	},
+	data(){
+		return {
+			city_or_zip_code: ""
+		}
+	},
+	created() {
+		
+    },
+	methods: {
+		/**
+    	 * @name foo
+    	 * @description 
+    	 */
+		foo() {
+			
+    	}
+	},
+	template:`
+		<form action="#" name="manual-search">
+			<div class="form-group">
+				<label for="exampleInputEmail1">City or zip code</label>
+				<input type="text" class="form-control" id="city_or_zip_code_input" aria-describedby="city_or_zip_code_input" placeholder="Enter city or zip code">
+			</div>
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	`
+});
+
+/**
  * Current Location
  */
 const FSCurrentLocation = Vue.component('fs-current-location',{
@@ -69,12 +104,13 @@ const FSCurrentLocation = Vue.component('fs-current-location',{
   		<div class="wrapper current-location">
 		  	<h3>Current Location</h3>
 		  	
-		  	<div class="welcome">
+			  <div class="welcome">
+
 		  		<span v-show="!location_name">Loading...</span>
 		  	
 		  		<i class="fa fa-map-marker float-left" aria-hidden="true"></i>
 		  		
-		  		<div class="location" v-show="location_name">
+		  		<div class="location" v-if="location_name">
   					<span>You are in </span>
   					<span>{{ location_name }}</span>
   					<span> - </span>
@@ -251,17 +287,17 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 									:alt="venue.name" 
 									:title="venue.name" />
 							</div>
-
+							
 							<div class="contact">
-								<a :href="'tel:' + venue.contact.phone" :show="venue.contact.phone">
+								<a :href="'tel:' + venue.contact.phone" v-if="venue.contact.phone">
 									<i class="fa fa-phone" aria-hidden="true"></i>
 								</a>
 								
-								<a :href="'https://www.facebook.com/profile.php?id=' + venue.contact.facebook" target="_blank" :show="venue.contact.facebook">
+								<a :href="'https://www.facebook.com/profile.php?id=' + venue.contact.facebook" v-if="venue.contact.facebook" target="_blank" >
 									<i class="fa fa-facebook" aria-hidden="true"></i>
 								</a>
 								
-								<a :href="'https://twitter.com/' + venue.contact.twitter" v-if="venue.contact.twitter" target="_blank" :show="venue.contact.twitter">
+								<a :href="'https://twitter.com/' + venue.contact.twitter" v-if="venue.contact.twitter" target="_blank">
 									<i class="fa fa-twitter" aria-hidden="true"></i>
 								</a>
 							</div>
@@ -289,19 +325,19 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 								<span v-if="venue.location.country">{{ venue.location.country }}</span> 
 							</div>
 							
-							<div class="likes text-right" :show="venue.likes.count > 0">
+							<div class="likes text-right" v-if="venue.likes.count > 0">
 								<span class="value">{{ venue.likes.count }}</span>
 								<span> </span>
 								<span class="label">likes</span>
 							</div>
 							
-							<div class="rating text-right" :show="venue.likes.rating > 0">
+							<div class="rating text-right" v-if="venue.likes.rating > 0">
 								<span class="label">Rating</span>
 								<span> </span>
 								<span class="value">{{ venue.rating }}</span>
 							</div>
 							
-							<div class="other text-right" :show="venue.hereNow.count > 0">
+							<div class="other text-right" v-if="venue.hereNow.count > 0">
 								<span class="alert alert-success hereNow">
 									<i aria-hidden="true" class="fa fa-star"></i> 
 									<span>{{ venue.hereNow.summary }}</span>
@@ -310,13 +346,11 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 						</div>
 
 						<div class="col-sm-12">
-							<div class="tips text-left" :show="venue.tips.count > 0">
-								<p>
-									<span>Tips: </span>
-									<span>{{ venue.tips.groups[0].items[0].text }}</span>
-								</p>
-								
-								<span>{{ venue.tips.groups[0].items[0].likes.summary }}</span>
+							<div class="tips text-left" v-if="venue.tips.count > 0">
+								<span>Tips: </span>
+								<span>{{ venue.tips.groups[0].items[0].text }}</span>
+								<span> </span>
+								(<span>{{ venue.tips.groups[0].items[0].likes.summary }}</span>)
 							</div>
 						</div>
 					</div>
@@ -345,12 +379,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 		}
 	},
 	watch: {
-    	geolocation_enabled: function (geolocation) {
-    		if(geolocation)
-			{
-    			this.getVenuesNearYou();
-			}
-		}
+    	
 	},
 	created() {
 		if(this.geolocation_enabled){
@@ -532,7 +561,8 @@ const vm = new Vue({
     el: '#foursquare-integration',
     components: {
         'fs-sidebar': FSSidebar,
-        'fs-content': FSContent
+		'fs-content': FSContent,
+		'fs-manual-search': FSManualSearch
     },
     data: {
     	config: {
