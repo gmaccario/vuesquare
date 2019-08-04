@@ -36,6 +36,7 @@ Tested on PHP 7.1.20
 
 ## Change logs
 - v.1.1
+- Sort results by distance
 - Form when geolocation is not activated
 - Installed PSR-4 autoloader
 - Installed php-foursquare from Composer
@@ -46,7 +47,6 @@ Tested on PHP 7.1.20
 - Add live filters
 - Components separation (different files)
 - Test Unit for the wrapper
-- Sort results by distance
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
