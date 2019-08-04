@@ -5,15 +5,10 @@
 				<div class="col-sm-12">
 					<fs-manual-search></fs-manual-search>
 					
-					<?php 
-					/*
-					 * 
-					 * <div class="wrapper content">
+					<div class="wrapper content">
+						<fs-venue-details></fs-venue-details>
             		  	<fs-venues-near-you :config="config" :geolocation_enabled="geolocation_enabled"></fs-venues-near-you>
               		</div>
-					 * 
-					 * */
-					?>
 				</div>
 			</div>
 		</div>

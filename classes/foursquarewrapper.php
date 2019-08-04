@@ -336,8 +336,8 @@ if(!class_exists('FoursquareWrapper'))
 		        case 'where-am-i':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
-		            $this->params['intent'] = $this->intent;
 		            $this->params['limit'] = $this->limit;
+		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'get-venues-per-coords':
 		            $this->endpoint = 'venues/search';
@@ -348,12 +348,14 @@ if(!class_exists('FoursquareWrapper'))
 		        case 'get-venues-by-category':
 		            $this->endpoint = 'venues/search';
 		            $this->params['ll'] = $this->ll;
-		            $this->params['intent'] = $this->intent;
+		            $this->params['radius'] = $this->radius;
 		            $this->params['categoryId'] = $this->categoryId;
+		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'search-near-to':
 		            $this->endpoint = 'venues/search';
 		            $this->params['near'] = $this->near;
+		            $this->params['radius'] = $this->radius;
 		            $this->params['intent'] = $this->intent;
 		            break;
 		        case 'get-venue-details':

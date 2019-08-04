@@ -40,11 +40,11 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 			evt.preventDefault();
 
 			this.valid = false;
-			if(this.city_or_zip_code.match(/^\w+$/g) !== null){
+			if(this.city_or_zip_code.match(/^[\w\-\s]+$/) !== null){
 
 				this.valid = true;
 
-				//bus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
+				bus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
 			}
     	}
 	},
@@ -202,7 +202,7 @@ const FSCategories = Vue.component('fs-categories',{
     	}
 	},
   	template:`  	
-  		<div class="wrapper categories">
+  		<div class="wrapper categories" v-if="categories.length > 0">
 		  	<h3>Categories</h3>
 		  	
   			<p v-show="!categories.length">Loading...</p>
@@ -402,6 +402,11 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 
 			this.getVenuesNearYou(categoryId);
 		});
+
+		bus.$on('update-venues-by-manual-search', (city_or_zip_code) => {
+
+			this.updateVenuesNearYouByManualSearch(city_or_zip_code);
+		});
 	},
 	methods: {
 		
@@ -423,6 +428,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			// ES2017 async/await support
 			const params = new URLSearchParams();
 			params.append('ll', this.config.latitude + "," + this.config.longitude);
+			params.append('radius', 5000);
 			params.append('intent', 'checkin');
 
 			if(!categoryId){
@@ -433,16 +439,35 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 				params.append('categoryId', categoryId);
 			}
 
-			axios.post('/', params).then((response) => {				
+			axios.post('/', params).then((response) => {
 
 				this.venues = response.data.response.venues;
 
 				bus.$emit('reset-venue');
 			});
 		},
+
+		/**
+    	 * @name updateVenuesNearYouByManualSearch
+    	 * @description Get new venues from manual search
+    	 */
+		updateVenuesNearYouByManualSearch(city_or_zip_code) {
+			
+			// ES2017 async/await support
+			const params = new URLSearchParams();
+			params.append('action', 'search-near-to');
+			params.append('radius', 5000);
+			params.append('near', city_or_zip_code);
+			params.append('intent', 'checkin');
+
+			axios.post('/', params).then((response) => {				
+
+				this.venues = response.data.response.venues;
+			});
+		},
 	},
   	template:`  	
-  		<div class="wrapper venues-near-you">
+  		<div class="wrapper venues-near-you" v-if="venues.length > 0">
 		  	<h3>Venues Near You</h3>
 		  	
 		  	<p v-show="!venues.length">Loading...</p>
@@ -464,7 +489,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 							title="No category" />
 					</div>
 				
-					<div class="distance">
+					<div class="distance" v-if="venue.location.distance">
 						<span>in </span>
 						<span>{{ venue.location.distance }} </span>
 						<span>meters</span>
