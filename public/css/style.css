@@ -6,6 +6,12 @@
 #foursquare-integration .hide{display:none;}
 
 /**
+* MANUAL SEARCH FORM
+*/
+form[name="manual-search"]{border: 1px solid #c0c0c0; padding: 1em; margin: 1em;}
+form[name="manual-search"] .alert{background-color: transparent;border:none;}
+
+/**
 * CURRENT LOCATION
 */
 #foursquare-integration .current-location{}

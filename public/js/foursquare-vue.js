@@ -24,7 +24,8 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 	data(){
 		return {
 			valid: false,
-			city_or_zip_code: ""
+			city_or_zip_code: "",
+			error_message: ""
 		}
 	},
 	created() {
@@ -39,12 +40,19 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 
 			evt.preventDefault();
 
-			this.valid = false;
 			if(this.city_or_zip_code.match(/^[\w\-\s]+$/) !== null){
 
 				this.valid = true;
 
+				this.error_message = "";
+
 				bus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
+			}
+			else {
+
+				this.valid = false;
+
+				this.error_message = "City or zip code unknown. Please, try with a different one.";
 			}
     	}
 	},
@@ -57,6 +65,9 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 				<label for="city_or_zip_code_input" v-show="false">City or zip code</label>
 				<input type="text" v-model.trim="city_or_zip_code" class="form-control" id="city_or_zip_code_input" aria-describedby="city_or_zip_code_input" placeholder="Enter city or zip code" />
 			</div>
+
+			<p class="alert alert-danger">{{ error_message }}</p>
+
 			<button type="submit" class="btn btn-primary">Search</button>
 		</form>`
 });
@@ -420,6 +431,20 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 		},
 
 		/**
+    	 * @name compareToSortByDistance
+    	 * @description Compare the venues distance to sort the venues by distance
+    	 */
+		compareToSortByDistance( a, b ) {
+			if ( a.location.distance < b.location.distance ){
+				return -1;
+			}
+			if ( a.location.distance > b.location.distance ){
+				return 1;
+			}
+			return 0;
+		},
+
+		/**
     	 * @name getVenuesNearYou
     	 * @description Get venues near you
     	 */
@@ -441,7 +466,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 
 			axios.post('/', params).then((response) => {
 
-				this.venues = response.data.response.venues;
+				this.venues = response.data.response.venues.sort(this.compareToSortByDistance);
 
 				bus.$emit('reset-venue');
 			});
@@ -462,7 +487,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 
 			axios.post('/', params).then((response) => {				
 
-				this.venues = response.data.response.venues;
+				this.venues = response.data.response.venues.sort(this.compareToSortByDistance);
 			});
 		},
 	},
