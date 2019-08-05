@@ -367,6 +367,10 @@ if(!class_exists('FoursquareWrapper'))
 		            $this->params['intent'] = $this->intent;
 		            $this->params['group'] = 'venue';
 		            break;
+		        case 'suggestion':
+		            /* @todo https://developer.foursquare.com/docs/api/venues/suggestcompletion */
+		            //$response = $this->foursquare->GetPublic( 'venues/suggestcompletion', array( 'group' => 'venue' ) );
+		            break;
 		        default:
 		            break;
 		    }

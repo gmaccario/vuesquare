@@ -373,7 +373,7 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 								<span>Tips: </span>
 								<span>{{ venue.tips.groups[0].items[0].text }}</span>
 								<span> </span>
-								(<span>{{ venue.tips.groups[0].items[0].likes.summary }}</span>)
+								<span v-if="venue.tips.groups[0].items[0].likes.summary">({{ venue.tips.groups[0].items[0].likes.summary }})</span>
 							</div>
 						</div>
 					</div>
