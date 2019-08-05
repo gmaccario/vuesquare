@@ -1,10 +1,10 @@
 /* *****************************************************************************************
  *  
- *  Event Bus
+ *  Event EventBus
  *  
  *  
  */
-const bus = new Vue();
+const EventBus = new Vue();
 
 
 /* *****************************************************************************************
@@ -46,7 +46,7 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 
 				this.error_message = "";
 
-				bus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
+				EventBus.$emit('update-venues-by-manual-search', this.city_or_zip_code);
 			}
 			else {
 
@@ -209,7 +209,7 @@ const FSCategories = Vue.component('fs-categories',{
     		
 			this.categoryId = category_id;
 
-			bus.$emit('update-venues-by-category', category_id);
+			EventBus.$emit('update-venues-by-category', category_id);
     	}
 	},
   	template:`  	
@@ -249,12 +249,12 @@ const FSVenueDetails = Vue.component('fs-venue-details',{
 	},
 	created() {
 
-		bus.$on('get-venue-by-id', (venue_id) => {
+		EventBus.$on('get-venue-by-id', (venue_id) => {
 
 			this.getVenueById(venue_id);
 		});
 
-		bus.$on('reset-venue', () => {
+		EventBus.$on('reset-venue', () => {
 
 			this.venue = {};
 		});
@@ -409,12 +409,12 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 			this.getVenuesNearYou();
 		}
 
-		bus.$on('update-venues-by-category', (categoryId) => {
+		EventBus.$on('update-venues-by-category', (categoryId) => {
 
 			this.getVenuesNearYou(categoryId);
 		});
 
-		bus.$on('update-venues-by-manual-search', (city_or_zip_code) => {
+		EventBus.$on('update-venues-by-manual-search', (city_or_zip_code) => {
 
 			this.updateVenuesNearYouByManualSearch(city_or_zip_code);
 		});
@@ -427,7 +427,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
     	 */
 		getVenueById(venue_id) {
 
-			bus.$emit('get-venue-by-id', venue_id);
+			EventBus.$emit('get-venue-by-id', venue_id);
 		},
 
 		/**
@@ -468,7 +468,7 @@ const FSVenuesNearYou = Vue.component('fs-venues-near-you',{
 
 				this.venues = response.data.response.venues.sort(this.compareToSortByDistance);
 
-				bus.$emit('reset-venue');
+				EventBus.$emit('reset-venue');
 			});
 		},
 
