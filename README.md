@@ -1,7 +1,7 @@
 # README
 
 ## Description
-My first integration using **Foursquare** and **Vue.js**. After spent some time studying AngularJS, I turned my attention to Vue.js and I used Foursquare Api to make a little web app that show to the user a list of place closeby.
+My first integration using **Foursquare** and **Vue.js**. After spent some time studying AngularJS, I turned my attention to Vue.js and I used Foursquare Api to make a little web app that show to the users a list of places closeby them.
 
 ## Getting started
 * Clone the repository to create a local copy on your computer and set up a virtual host to visit VueSquare via browser.
