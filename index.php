@@ -1,8 +1,8 @@
 <?php 
 /*
-Name: Foursquare Test Integration
+Name: Foursquare Integration
 URI: https://www.giuseppemaccario.com/foursquare-integration/
-Description: My first integration using Foursquare and Vue.js.
+Description: My first integration using Foursquare and Vue.js. README for more info.
 Version: 1.0
 Author: Giuseppe Maccario
 Author URI: 
@@ -14,7 +14,8 @@ define( 'FTI_ENV', 'dev' );
 if( FTI_ENV == 'dev' )
 {
 	ini_set('display_errors', 1);
-	error_reporting(E_ALL);	
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 }
 
 function fs_v_init()
@@ -26,8 +27,8 @@ function fs_v_init()
     /* Include constants */
     include_once FTI_PATH_INCLUDE . 'constants.php';
     
-    /* Include autoloader */
-	require_once FTI_PATH_INCLUDE . 'autoload.php';
+    /* PSR-4: Autoloader - PHP-FIG */
+    require FTI_PATH_VENDOR . 'autoload.php';
 	
 	/* Include the controller */
 	include_once FTI_PATH_INCLUDE . 'controller.php';
