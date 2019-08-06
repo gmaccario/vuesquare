@@ -42,11 +42,11 @@ Tested on PHP 7.1.20
 - Installed php-foursquare from Composer
 - Refactoring of fs Vuejs
 - Implemented EventBus
+- Added first Test Unit for the wrapper
 
 ## TODO
 - Add live filters
 - Components separation (different files)
-- Test Unit for the wrapper
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
