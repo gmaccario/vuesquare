@@ -47,6 +47,7 @@ Tested on PHP 7.1.20
 ## TODO
 - Add live filters
 - Components separation (different files)
+- Add initial message on error 400 Missing Credentials
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
