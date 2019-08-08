@@ -36,7 +36,7 @@ Tested on PHP 7.1.20
 - [PHP Foursquare API v2](https://github.com/hownowstephen/php-foursquare)
 
 ## Change logs
-### v.1.1
+### v.1.5
 - Sort results by distance
 - Display a form when geolocation is not activated
 - Installed PSR-4 autoloader from Composer
