@@ -3,7 +3,7 @@
 Name: Foursquare Integration
 URI: https://www.giuseppemaccario.com/foursquare-integration/
 Description: My first integration using Foursquare and Vue.js. README for more info.
-Version: 1.0
+Version: 1.5
 Author: Giuseppe Maccario
 Author URI: 
 License: GPL2
