@@ -30,8 +30,8 @@ function fs_v_init()
     /* PSR-4: Autoloader - PHP-FIG */
     require FTI_PATH_VENDOR . 'autoload.php';
 	
-	/* Include the controller */
-	include_once FTI_PATH_INCLUDE . 'controller.php';
+    /* Include the controller */
+    include_once FTI_PATH_INCLUDE . 'controller.php';
 }
 
 /*
