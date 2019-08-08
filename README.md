@@ -32,15 +32,16 @@ I implemented two cases:
 Tested on PHP 7.1.20
 
 ## Dependencies
-- [php-foursquare](https://github.com/hownowstephen/php-foursquare)
+- [PSR-4: Autoloader](https://www.php-fig.org/psr/psr-4/)
+- [PHP Foursquare API v2](https://github.com/hownowstephen/php-foursquare)
 
 ## Change logs
-- v.1.1
+### v.1.1
 - Sort results by distance
-- Form when geolocation is not activated
-- Installed PSR-4 autoloader
+- Display a form when geolocation is not activated
+- Installed PSR-4 autoloader from Composer
 - Installed php-foursquare from Composer
-- Refactoring of fs Vuejs
+- Refactoring of Vue code: created separated components
 - Implemented EventBus
 - Added first Test Unit for the wrapper
 
