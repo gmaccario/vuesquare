@@ -27,7 +27,7 @@ I implemented two cases:
 - PHP 7
 - Vue.js
 - Axios
-- Bootstrap
+- Bootstrap 4.1.1
 
 Tested on PHP 7.1.20
 
