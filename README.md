@@ -4,10 +4,10 @@
 My first integration using **Foursquare** and **Vue.js**. After spent some time studying AngularJS, I turned my attention to Vue.js and I used Foursquare Api to make a little web app that show to the users a list of places closeby them.
 
 ## Getting started
-* Clone the repository to create a local copy on your computer and set up a virtual host to visit VueSquare via browser.
-* Launch composer dump-autoload to regenerate the list of all classes that need to be included in the project 
+* Clone the repository to create a local copy on your computer
+* Load all the dependenciesvia composer (autloader, php-foursquare, phpunit)
 * Open conf/config.php and put your [Foursquare Client ID and Client Secret keys](https://developer.foursquare.com/docs/api)
-* Set up a virtual host (optional)
+* Set up a virtual host in order to to visit VueSquare via browser
 * Open VueSquare via browser.
 
 ## Beneath the surface
@@ -45,9 +45,9 @@ Tested on PHP 7.1.20
 - Added first Test Unit for the wrapper
 
 ## TODO
-- Add live filters
-- Components separation (different files)
+- Components separation on different files
 - Add initial message on error 400 Missing Credentials
+- Add live filters
 
 ## Live demo
 [Real integration in WordPress](https://www.giuseppemaccario.com/foursquare-integration/)
