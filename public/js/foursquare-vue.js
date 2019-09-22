@@ -40,6 +40,7 @@ const FSManualSearch = Vue.component('fs-manual-search',{
 
 			evt.preventDefault();
 
+			/* Validate the input */
 			if(this.city_or_zip_code.match(/^[\w\-\s]+$/) !== null){
 
 				this.valid = true;
